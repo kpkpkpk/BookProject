@@ -52,7 +52,7 @@ public class DatabaseController {
             firebaseAuth = FirebaseAuth.getInstance();
         } else {
             databaseConnection = new DatabaseConnection();
-            connection = databaseConnection.returnConnection();
+
         }
     }
 
@@ -196,7 +196,7 @@ public class DatabaseController {
         return id;
 //        return favoriteTags;
     }
-    CountDownLatch countDownLatch=new CountDownLatch(1);
+
     ArrayList<Book> books;
     public void fillTenBooks(String tagName) {
         books = new ArrayList<>();
@@ -224,8 +224,9 @@ public class DatabaseController {
                             );
                             Log.d("getBooksLog", book.toString());
                             books.add(book);
+
                         }
-                        countDownLatch.countDown();
+//                        countDownLatch.countDown();
                 } catch (Exception err) {
                     err.printStackTrace();
                     Log.d("getBooksLog", err.getMessage());
@@ -235,27 +236,18 @@ public class DatabaseController {
         });
         thread.start();
         try {
-            countDownLatch.await();
+            thread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
     public ArrayList<Book> getTenBooks(String tagName){
        fillTenBooks(tagName);
-       if(books.isEmpty()){
-           CountDownTimer timer=new CountDownTimer(8000,1000) {
-               @Override
-               public void onTick(long millisUntilFinished) {
-
-               }
-
-               @Override
-               public void onFinish() {
-
-               }
-           };
-           timer.start();
-       }
         return books;
     }
 }

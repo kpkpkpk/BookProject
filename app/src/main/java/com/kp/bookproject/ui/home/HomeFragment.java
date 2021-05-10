@@ -1,4 +1,4 @@
-package com.kp.bookproject.ui.home;
+   package com.kp.bookproject.ui.home;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,23 +34,56 @@ import static com.kp.bookproject.Constants.SHARED_PREFERENCES_FAVORITE_TAGS_NAME
 
 public class HomeFragment extends Fragment {
     private RecyclerViewBooksAdapter recyclerViewBooksAdapter;
-    private HomeViewModel homeViewModel;
-    private DatabaseController dbController = new DatabaseController(false);
-    private View root;
-    private LinearLayout mainLayout;
 
+//    private DatabaseController dbController = new DatabaseController(false);
+    private View root;
+    private LinearLayout mainLayout,secondL;
+    TextView text,waitText;
+    ProgressBar progressBar;
+
+    private boolean isAll=false;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         mainLayout = root.findViewById(R.id.main_layout_fragment_home);
-        createBooksListView();
+        secondL=root.findViewById(R.id.container_layout);
+         progressBar=root.findViewById(R.id.progressBar);
+        text =root.findViewById(R.id.text_home);
+        waitText=root.findViewById(R.id.waitText);
+//        Пробуем прогрессбар
+        progressBar.setVisibility(View.VISIBLE);
+
 
         return root;
     }
+    ArrayList<LinearLayout> layouts;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+              layouts=createBooksListView();
+                for (LinearLayout l:
+                        layouts ) {
+                    secondL.addView(l);
+                }
+            }
+        });thread.start();
+            while (thread.isAlive()) {
+                progressBar.setVisibility(View.VISIBLE);
+                text.setVisibility(View.GONE);
+                secondL.setVisibility(View.GONE);
+            }
+            secondL.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+            text.setVisibility(View.VISIBLE);
 
-    private void createBooksListView() {
+    }
+
+    ArrayList<Book> books;
+    private ArrayList<LinearLayout> createBooksListView() {
+ArrayList<LinearLayout> layoutL=new ArrayList<>();
         SharedPreferences selectedTagsPreference = getActivity().getSharedPreferences(SHARED_PREFERENCES_FAVORITE_TAGS_NAME, MODE_PRIVATE);
 
 //        Создаем необходимое к-во RecyclerView для отображения первых 10 книг сортированных по рейтингу
@@ -57,6 +91,19 @@ public class HomeFragment extends Fragment {
 //            получаем название тега с SharedPreference
             String tag = selectedTagsPreference.getString(SELECTED_TAGS_KEY + i, "null");
             Log.d("tagos",tag);
+            Thread thread=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    DatabaseController controller=new DatabaseController(false);
+                    books=controller.getTenBooks(tag);
+                }
+            });
+
+            thread.start();
+
+            while(thread.isAlive()){
+            }
+
             //линейный лейаут нужен чтоб удобно закинуть туда текстовое поле
             LinearLayout recyclerContainer = new LinearLayout(root.getContext());
             recyclerContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -85,19 +132,18 @@ public class HomeFragment extends Fragment {
             booksRecyclerView.setLayoutManager(horizontalLayoutManager);
             booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), LinearLayoutManager.HORIZONTAL));
             Log.d("checkn",tag);
-            ArrayList<Book> test = dbController.getTenBooks(tag);
 
 
-            recyclerViewBooksAdapter = new RecyclerViewBooksAdapter(test, root.getContext());
+
+            recyclerViewBooksAdapter = new RecyclerViewBooksAdapter(books, root.getContext());
             booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
+
             //добавляем наш контейнер на основной лейаут
             recyclerContainer.addView(text);
             recyclerContainer.addView(booksRecyclerView);
-
-            Toast.makeText(root.getContext(), "set recyclers="+i, Toast.LENGTH_SHORT).show();
-            mainLayout.addView(recyclerContainer);
-
+            layoutL.add(recyclerContainer);
 
         }
+        return layoutL;
     }
 }

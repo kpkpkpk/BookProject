@@ -4,16 +4,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.kp.bookproject.Entity.Book;
+import com.kp.bookproject.PostgresControllers.DatabaseController;
+
 public class HomeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<Book> arr;
+    private DatabaseController databaseController;
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        arr = new MutableLiveData<>();
+        databaseController=new DatabaseController(false);
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<Book> getBooks() {
+        return arr;
     }
 }
