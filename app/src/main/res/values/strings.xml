@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">BookProject</string>
+    <string name="main_tag_1">Афоризмы</string>
+    <string name="main_tag_2">Басни</string>
+    <string name="main_tag_3">Детективы</string>
+    <string name="main_tag_4">Драматургия</string>
+    <string name="main_tag_5">Историческая проза</string>
+    <string name="main_tag_6">Классическая проза</string>
+    <string name="main_tag_7">Отечественный боевик</string>
+    <string name="main_tag_8">Поэзия</string>
+    <string name="main_tag_9">Приключения</string>
+    <string name="main_tag_10">Сентиментальная проза</string>
+    <string name="main_tag_11">Современная проза</string>
+    <string name="main_tag_12">Фантастика</string>
+    <string name="main_tag_13">Фэнтези</string>
+    <string name="main_tag_14">Эпос и фольклор</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="recommendation_string">Возможно вам понравятся книги по данному тегу: </string>
+</resources>
