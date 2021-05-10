@@ -22,6 +22,7 @@ public class RecyclerViewBooksAdapter extends RecyclerView.Adapter<RecyclerViewB
     private Context context;
     public RecyclerViewBooksAdapter(ArrayList<Book> books,Context context) {
         this.books = books;
+        Log.d("checkn",books.isEmpty()+" ");
         this.context=context;
     }
 //Создаем наш view
