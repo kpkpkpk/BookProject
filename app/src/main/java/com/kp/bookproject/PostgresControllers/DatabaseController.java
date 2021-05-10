@@ -121,14 +121,15 @@ public class DatabaseController {
                 if (firebaseUser != null) {
                     userId = firebaseUser.getUid();
                     databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-                    HashMap<Integer, Integer> likedMap = new HashMap<>();
-
+                    HashMap<String, Integer> likedMap = new HashMap<>();
                     //решил сразу добавить лайкнутых авторов, чтоб не было проблемс с этим
                     //сначала айдишник в кач-ве ключа, а второе значение - к-во лайков
-                    likedMap.put(9999, 0);
+                    likedMap.put(Integer.toString(9999), 0);
+
 //                    databaseReference.child("liked_authors").setValue(likedMap);
 
                     databaseReference.child("tags_id").setValue(tagsId);
+                    databaseReference.child("liked_authors").setValue(likedMap);
                 } else {
                     Log.d("setF", "user is null");
                 }
@@ -196,9 +197,9 @@ public class DatabaseController {
 //        return favoriteTags;
     }
     CountDownLatch countDownLatch=new CountDownLatch(1);
-
-    public ArrayList<Book> getTenBooks(String tagName) {
-        ArrayList<Book> books = new ArrayList<>();
+    ArrayList<Book> books;
+    public void fillTenBooks(String tagName) {
+        books = new ArrayList<>();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -212,7 +213,7 @@ public class DatabaseController {
 
                         StringBuilder sql = new StringBuilder("select books.id,book_name,authors.author_name,book_image from books,authors where (select id from tags where tags.nametag like '%");
                         //добавляем название тега
-                        sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating asc limit 10");
+                        sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating,random() asc limit 10");
                         Log.d("setF", sql.toString() + "");
                         resultSet = statement.executeQuery(sql.toString());
                         while (resultSet.next()) {
@@ -238,7 +239,23 @@ public class DatabaseController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public ArrayList<Book> getTenBooks(String tagName){
+       fillTenBooks(tagName);
+       if(books.isEmpty()){
+           CountDownTimer timer=new CountDownTimer(8000,1000) {
+               @Override
+               public void onTick(long millisUntilFinished) {
+
+               }
+
+               @Override
+               public void onFinish() {
+
+               }
+           };
+           timer.start();
+       }
         return books;
     }
-
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,7 +61,7 @@ public class HomeFragment extends Fragment {
             LinearLayout recyclerContainer = new LinearLayout(root.getContext());
             recyclerContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             recyclerContainer.setOrientation(LinearLayout.VERTICAL);
-            recyclerContainer.setPadding(1, 1, 1, 1);
+            recyclerContainer.setPadding(1, 20, 1, 1);
             //Добавляем текстовое поле
             TextView text = new TextView(root.getContext());
             text.setTextSize(15);
@@ -83,6 +84,7 @@ public class HomeFragment extends Fragment {
 
             booksRecyclerView.setLayoutManager(horizontalLayoutManager);
             booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), LinearLayoutManager.HORIZONTAL));
+            Log.d("checkn",tag);
             ArrayList<Book> test = dbController.getTenBooks(tag);
 
 
@@ -91,6 +93,8 @@ public class HomeFragment extends Fragment {
             //добавляем наш контейнер на основной лейаут
             recyclerContainer.addView(text);
             recyclerContainer.addView(booksRecyclerView);
+
+            Toast.makeText(root.getContext(), "set recyclers="+i, Toast.LENGTH_SHORT).show();
             mainLayout.addView(recyclerContainer);
 
 
