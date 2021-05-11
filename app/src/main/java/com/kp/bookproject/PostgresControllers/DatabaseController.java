@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
 
 import java.sql.Connection;
@@ -37,7 +38,6 @@ public class DatabaseController {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     //если требуется работа с несколькими базами сразу
-
 
     public DatabaseController() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -144,33 +144,29 @@ public class DatabaseController {
 
     }
 
-    ArrayList<Integer> favoriteTags;
 
-    public int getTag(int id) {
-        favoriteTags = new ArrayList<>();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
+
+    public String getUsername() {
+        StringBuilder name=new StringBuilder();
                     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                     String userId = null;
-
                     if (firebaseUser != null) {
                         userId = firebaseUser.getUid();
-                        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("tags_id").child(id+"");
+                        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("username");
                         databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    GenericTypeIndicator<Integer> arrayListGenericTypeIndicator =
-                                            new GenericTypeIndicator<Integer>() {
+                                    GenericTypeIndicator<String> arrayListGenericTypeIndicator =
+                                            new GenericTypeIndicator<String>() {
                                             };
                                     try {
-
+                                        name.append(task.getResult().getValue(arrayListGenericTypeIndicator));
+                                        Log.d("get_usr",name+"");
                                     } catch (NullPointerException ex) {
                                         Log.d("zxccl", "null err");
                                     }
-                                    Log.d("setF", favoriteTags.toString() + "");
+
                                 }
                             }
                         });
@@ -178,38 +174,25 @@ public class DatabaseController {
                         Log.d("zxccl", "user is null");
 
                     }
-                } catch (Exception err) {
-                    err.printStackTrace();
 
-                }
+        return name.toString();
 
-            }
-
-
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return id;
-//        return favoriteTags;
     }
 
     ArrayList<Book> books;
-    public void fillTenBooks(String tagName) {
+
+    /**
+     * сделал не потоком потому что требовалось управлять в другом методе
+     * {@see #com.kp.bookproject.ui.home.HomeFragment}
+     *
+     **/
+    public ArrayList<Book> getTenBooks(String tagName) {
         books = new ArrayList<>();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    connection = databaseConnection.returnConnection();
-                    statement = connection.createStatement();
-//                    getTag(id);
-//                    timer.await();
-                    //получаем лист тегов, по которому будем проходиться и собирать айди
-//                    Log.d("setFGet", favoriteTags.toString());
+
+
+                    try {
+                        connection = databaseConnection.returnConnection();
+                        statement = connection.createStatement();
 
                         StringBuilder sql = new StringBuilder("select books.id,book_name,authors.author_name,book_image from books,authors where (select id from tags where tags.nametag like '%");
                         //добавляем название тега
@@ -224,30 +207,14 @@ public class DatabaseController {
                             );
                             Log.d("getBooksLog", book.toString());
                             books.add(book);
-
                         }
-//                        countDownLatch.countDown();
-                } catch (Exception err) {
-                    err.printStackTrace();
-                    Log.d("getBooksLog", err.getMessage());
-                }
-            }
 
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-//        try {
-//            countDownLatch.await();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-    }
-    public ArrayList<Book> getTenBooks(String tagName){
-       fillTenBooks(tagName);
+                    } catch (Exception err) {
+                        Log.d("getBooksLog", err.getMessage());
+                    }
+
+
         return books;
+
     }
 }
