@@ -410,13 +410,13 @@ boolean check=false;
                             map.put(Integer.toString(author_id), 1);
                             databaseReference.setValue(map);
                         }
-                        if(map.containsKey(author_id)){
-                            map.replace(Integer.toString(author_id),map.get(author_id)+1);
-                            databaseReference.setValue(map);
+                        Log.d("contains",map.containsKey(Integer.toString(author_id))+"");
+                        if(map.containsKey(Integer.toString(author_id))){
+                            map.replace(Integer.toString(author_id),map.get(Integer.toString(author_id))+1);
                         }else{
                             map.put(Integer.toString(author_id), 1);
-                            databaseReference.setValue(map);
                         }
+                        databaseReference.setValue(map);
                     }
                     Log.d("m", map.toString());
 

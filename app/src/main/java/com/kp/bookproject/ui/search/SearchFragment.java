@@ -52,7 +52,7 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent i=new Intent(root.getContext(),BookActivity.class);
-                    i.putExtra("id",10970);
+                    i.putExtra("id",127);
                     startActivity(i);
                 }
             });
