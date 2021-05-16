@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,7 +23,6 @@ import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.PostgresControllers.DatabaseController;
 import com.kp.bookproject.R;
-import com.kp.bookproject.RecyclerViewBooksAdapter;
 
 import java.util.ArrayList;
 
@@ -33,13 +33,11 @@ import static com.kp.bookproject.Constants.SHARED_PREFERENCES_FAVORITE_TAGS_NAME
 
 public class HomeFragment extends Fragment {
     private RecyclerViewBooksAdapter recyclerViewBooksAdapter;
-
-    String name;
-//    private DatabaseController dbController = new DatabaseController(false);
+    private String name;
     private View root;
     private LinearLayout mainLayout,secondL;
-    TextView text,waitText;
-    ProgressBar progressBar;
+    private TextView text,waitText;
+    private ProgressBar progressBar;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,10 +48,10 @@ public class HomeFragment extends Fragment {
         progressBar=root.findViewById(R.id.progressBar);
         text =root.findViewById(R.id.text_home);
         waitText=root.findViewById(R.id.waitText);
+       //подготавливаем вью, делаем прогресс бар видимым
         secondL.setVisibility(View.GONE);
         text.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-//        Пробуем прогрессбар
 
         return root;
     }
@@ -69,7 +67,7 @@ public class HomeFragment extends Fragment {
                         public void onStart() {
 
                         }
-
+            //после завершения загрузки убираем прогресс бар и закидываем ресайклеры
                         @Override
                         public void onComplete(ArrayList<LinearLayout> linearLayouts) {
                           getActivity().runOnUiThread(new Runnable() {
@@ -89,6 +87,13 @@ public class HomeFragment extends Fragment {
                           });
 
                         }
+                            //not used
+                        @Override
+                        public void onComplete(Book book) {
+
+                        }
+
+
                     });
                 }
             });
@@ -158,6 +163,7 @@ public class HomeFragment extends Fragment {
 
             booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
             //добавляем наш контейнер на основной лейаут
+           
             recyclerContainer.addView(text);
             recyclerContainer.addView(booksRecyclerView);
            layoutL.add(recyclerContainer);

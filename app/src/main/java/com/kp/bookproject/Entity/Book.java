@@ -5,15 +5,18 @@ import java.util.ArrayList;
 public class Book {
     private int id;
     private ArrayList<Integer> tags_id;
+    private String tag;
     private String book_name;
     private String authorName;
     private String description;
     private String image_url;
     private int rating;
+    /**
+     * Для BookActivity
+     **/
 
-    public Book(int id, ArrayList<Integer> tags_id, String book_name, String authorName, String description, String image_url,int rating) {
-        this.id = id;
-        this.tags_id = tags_id;
+    public Book(String tag, String book_name, String authorName, String description, String image_url,int rating) {
+        this.tag = tag;
         this.book_name = book_name;
         this.authorName = authorName;
         this.description = description;
@@ -88,9 +91,21 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "id=" + id +
+                ", tags_id=" + tags_id +
+                ", tag='" + tag + '\'' +
                 ", book_name='" + book_name + '\'' +
                 ", authorName='" + authorName + '\'' +
+                ", description='" + description + '\'' +
                 ", image_url='" + image_url + '\'' +
+                ", rating=" + rating +
                 '}';
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

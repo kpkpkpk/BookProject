@@ -69,7 +69,6 @@ public class FavouriteTagsActivity extends AppCompatActivity {
             editor.apply();
         }
 
-
     }
 
 

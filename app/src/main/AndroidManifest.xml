@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookProject">
-
+        <activity android:name=".ui.bookpage.BookActivity"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".FavouriteTagsActivity" />
         <activity android:name=".RegistrationActivity" />
@@ -25,6 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".ui.bookpage.ImportRatingService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service android:name=".ui.bookpage.ImportAuthorService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>

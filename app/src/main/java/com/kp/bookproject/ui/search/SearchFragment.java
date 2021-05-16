@@ -1,5 +1,6 @@
 package com.kp.bookproject.ui.search;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.kp.bookproject.PostgresControllers.DatabaseController;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.bookpage.BookActivity;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,15 @@ public class SearchFragment extends Fragment {
 
          chipGroup=root.findViewById(R.id.fragment_search_chips_layout);
          mainLayout=root.findViewById(R.id.main_layout_fragment_search);
-
+            Button button=root.findViewById(R.id.button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i=new Intent(root.getContext(),BookActivity.class);
+                    i.putExtra("id",10970);
+                    startActivity(i);
+                }
+            });
          return root;
     }
 

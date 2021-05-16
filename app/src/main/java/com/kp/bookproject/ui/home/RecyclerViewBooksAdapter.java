@@ -1,4 +1,4 @@
-package com.kp.bookproject;
+package com.kp.bookproject.ui.home;
 
 
 import android.content.Context;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.kp.bookproject.Entity.Book;
+import com.kp.bookproject.R;
 
 import java.util.ArrayList;
 
