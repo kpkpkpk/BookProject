@@ -173,9 +173,15 @@ public class DatabaseController {
 
 
     /**
-     * сделал не потоком потому что требовалось управлять в другом методе
-     * {@see #com.kp.bookproject.ui.home.HomeFragment}
-     **/
+     * getTenBooks
+     * @param tagName исползуется для получения книг по ранее выбранному пользователем тегу
+     * @return возвращаем ArrayList для
+     * @see com.kp.bookproject.ui.RecyclerViewBooksAdapter
+     * Используется для получения десяти РАНДОМНЫХ книг отсортированных по рейтингу
+     * Взаимодействовать с этим методом исключительно через отдельный поток, так как:
+     * виснет UI
+     * Можно воткнуть прогрессбар и т.п. вещи
+     */
     public ArrayList<Book> getTenBooks(String tagName) {
         ArrayList<Book> books = new ArrayList<>();
         try {
@@ -206,7 +212,17 @@ public class DatabaseController {
     }
 
     Book book;
+
 boolean isall=false;
+
+    /**
+     * обратите внимане выше на isAll
+     *это требуется для того, чтобы ждать завершение работы firebase и не получить ошибку
+     * @param id - используется для получения книги по ее айди
+     * @return соотв ввозвращает экземпляр класса
+     * @see Book
+     * Использовать в отдельном потоке для предотвращения ANR
+     */
     public Book getBook(int id) {
         fillCheckBook(id);
         Log.d("all","ISALL"+isall);

@@ -13,11 +13,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10sp"
+
         android:id="@+id/book_author_name"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
+        android:ellipsize="end"
+
+        android:minEms="2"
         android:id="@+id/book_name_item"/>
 
     

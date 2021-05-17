@@ -1,11 +1,11 @@
    package com.kp.bookproject.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -23,6 +23,8 @@ import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.PostgresControllers.DatabaseController;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
+import com.kp.bookproject.ui.bookpage.BookActivity;
 
 import java.util.ArrayList;
 
@@ -160,7 +162,14 @@ public class HomeFragment extends Fragment {
 
 
             recyclerViewBooksAdapter = new RecyclerViewBooksAdapter(books, root.getContext());
-
+            recyclerViewBooksAdapter.setClickListener(new RecyclerViewBooksAdapter.ItemClickListener() {
+                @Override
+                public void onItemClick(int id) {
+                    Intent i = new Intent(root.getContext(), BookActivity.class);
+                    i.putExtra("id",id);
+                    startActivity(i);
+                }
+            });
             booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
             //добавляем наш контейнер на основной лейаут
            

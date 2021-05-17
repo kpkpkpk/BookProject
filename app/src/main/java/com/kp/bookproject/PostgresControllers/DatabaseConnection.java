@@ -19,6 +19,11 @@ public class DatabaseConnection {
         Log.d("ConnectP","connect status(constructor):"+isConnected);
     }
 
+    /**
+     * Все описано здесь:
+     * @link {https://docs.oracle.com/javase/8/docs/api/java/sql/DriverManager.html}
+     *
+     */
     private void connect(){
         Thread thread = new Thread(new Runnable() {
             @Override
