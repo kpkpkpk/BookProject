@@ -151,7 +151,7 @@ public class DatabaseController {
         if (firebaseUser != null) {
 
             Log.d("ISEXISTSTAGS",tagName);
-            databaseReference = FirebaseDatabase.getInstance().getReference("Alltags").child(tagName);
+            databaseReference = FirebaseDatabase.getInstance().getReference("Alltags/"+tagName);
 
             databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -175,7 +175,7 @@ public class DatabaseController {
                        }else{
                            isall=true;
                        }
-                        Log.d("ISEXISTSTAGS",""+tags.isEmpty());
+                        Log.d("ISEXISTSTAGS","empty?"+tags.isEmpty());
                     }
                 }
             });
@@ -186,9 +186,9 @@ public class DatabaseController {
         }
     }
 
-    public ArrayList<Book> getBooks(String tagName) {
+    public ArrayList<Book> getBooksInSelectedTagsFragment(String tagName,String forFirebase) {
         ArrayList<Book> books = new ArrayList<>();
-            fillTagsFromFirebase(tagName);
+            fillTagsFromFirebase(forFirebase);
         while (!isall){
             Log.d("all","ISALL"+isall);
         }
@@ -199,7 +199,7 @@ public class DatabaseController {
 
             StringBuilder sql = new StringBuilder("select books.id,book_name,authors.author_name,book_image from books,authors where (select id from tags where tags.nametag like '%");
             //добавляем название тега
-            sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating,random() asc limit 20");
+            sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating desc limit 20");
             Log.d("setF", sql.toString() + "");
             resultSet = statement.executeQuery(sql.toString());
             while (resultSet.next()) {

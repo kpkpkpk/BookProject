@@ -67,6 +67,7 @@ public class SearchFragment extends Fragment {
                 SelectedTagFragment fragment=new SelectedTagFragment();
                 Bundle bundle=new Bundle();
                 bundle.putString("tag",tagName);
+                bundle.putString("forFirebase",tagName);
                 fragment.setArguments(bundle);
                 fragmentTransaction.add(R.id.nav_host_fragment,fragment,SELECTED_TAG_FRAGMENT);
                 fragmentTransaction.addToBackStack("PREVIOUS");
