@@ -39,6 +39,8 @@ public class DatabaseController {
     private DatabaseReference databaseReference;
     //если требуется работа с несколькими базами сразу
 
+    boolean isall=false;
+
     public DatabaseController() {
         firebaseAuth = FirebaseAuth.getInstance();
         databaseConnection = new DatabaseConnection();
@@ -136,44 +138,94 @@ public class DatabaseController {
         }
 
     }
+    private ArrayList<String> tags;
 
+    public ArrayList<String> getTags() {
+        return tags;
+    }
 
-    public String getUsername() {
-        StringBuilder name = new StringBuilder();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        String userId = null;
+    public void fillTagsFromFirebase(String tagName){
+        tags=new ArrayList<>();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         if (firebaseUser != null) {
-            userId = firebaseUser.getUid();
-            databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("username");
+
+            Log.d("ISEXISTSTAGS",tagName);
+            databaseReference = FirebaseDatabase.getInstance().getReference("Alltags").child(tagName);
+
             databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (task.isSuccessful()) {
-                        GenericTypeIndicator<String> arrayListGenericTypeIndicator =
-                                new GenericTypeIndicator<String>() {
-                                };
-                        try {
-                            name.append(task.getResult().getValue(arrayListGenericTypeIndicator));
-                            Log.d("get_usr", name + "");
-                        } catch (NullPointerException ex) {
-                            Log.d("zxccl", "null err");
-                        }
+                       if(task.getResult().exists()){
+                           try {
+                               for (DataSnapshot d:
+                                       task.getResult().getChildren()) {
+                                   tags.add(d.getKey());
+                               }
 
+                               isall=true;
+                               Log.d("likedbooksfirebase",check+"");
+                           } catch (NullPointerException ex) {
+
+
+                               Log.d("fillCheckBook", "null err"+check);
+                           }
+
+                       }else{
+                           isall=true;
+                       }
+                        Log.d("ISEXISTSTAGS",""+tags.isEmpty());
                     }
                 }
             });
+
         } else {
-            Log.d("zxccl", "user is null");
+            Log.d("likedbooksfirebase", "err");
 
         }
+    }
 
-        return name.toString();
+    public ArrayList<Book> getBooks(String tagName) {
+        ArrayList<Book> books = new ArrayList<>();
+            fillTagsFromFirebase(tagName);
+        while (!isall){
+            Log.d("all","ISALL"+isall);
+        }
+        isall=false;
+        try {
+            connection = databaseConnection.returnConnection();
+            statement = connection.createStatement();
 
+            StringBuilder sql = new StringBuilder("select books.id,book_name,authors.author_name,book_image from books,authors where (select id from tags where tags.nametag like '%");
+            //добавляем название тега
+            sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating,random() asc limit 20");
+            Log.d("setF", sql.toString() + "");
+            resultSet = statement.executeQuery(sql.toString());
+            while (resultSet.next()) {
+                Book book = new Book(resultSet.getInt("id")
+                        , resultSet.getString("book_name")
+                        , resultSet.getString("author_name")
+                        , resultSet.getString("book_image")
+                );
+                Log.d("getBooksLog", book.toString());
+                books.add(book);
+            }
+
+        } catch (Exception err) {
+            Log.d("getBooksLog", err.getMessage());
+        }
+
+
+        return books;
     }
 
 
+
+
+
     /**
-     * getTenBooks
+     * Books
      * @param tagName исползуется для получения книг по ранее выбранному пользователем тегу
      * @return возвращаем ArrayList для
      * @see com.kp.bookproject.ui.RecyclerViewBooksAdapter
@@ -213,8 +265,6 @@ public class DatabaseController {
 
     Book book;
 
-boolean isall=false;
-
     /**
      * обратите внимане выше на isAll
      *это требуется для того, чтобы ждать завершение работы firebase и не получить ошибку
@@ -229,7 +279,7 @@ boolean isall=false;
         while (!isall){
             Log.d("all","ISALL"+isall);
         }
-
+        isall=false;
         try {
             connection = databaseConnection.returnConnection();
             statement = connection.createStatement();
