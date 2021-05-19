@@ -1,7 +1,6 @@
    package com.kp.bookproject.ui.home;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,13 +25,16 @@ import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.PostgresControllers.DatabaseController;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
-import com.kp.bookproject.ui.bookpage.BookActivity;
+import com.kp.bookproject.ui.bookpage.BookFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.kp.bookproject.Constants.SELECTED_BOOK;
 import static com.kp.bookproject.Constants.SELECTED_TAGS_COUNT;
 import static com.kp.bookproject.Constants.SELECTED_TAGS_KEY;
+
 import static com.kp.bookproject.Constants.SHARED_PREFERENCES_FAVORITE_TAGS_NAME;
 
 public class HomeFragment extends Fragment {
@@ -83,7 +87,7 @@ public class HomeFragment extends Fragment {
 
                                   progressBar.setVisibility(View.GONE);
                                   secondL.setVisibility(View.VISIBLE);
-                                  text.setText(getResources().getString(R.string.to_name)+name);
+                                  text.setText("Для тебя");
                                   text.setVisibility(View.VISIBLE);
                               }
                           });
@@ -92,6 +96,11 @@ public class HomeFragment extends Fragment {
                             //not used
                         @Override
                         public void onComplete(Book book) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
 
                         }
 
@@ -165,9 +174,31 @@ public class HomeFragment extends Fragment {
             recyclerViewBooksAdapter.setClickListener(new RecyclerViewBooksAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(int id) {
-                    Intent i = new Intent(root.getContext(), BookActivity.class);
-                    i.putExtra("id",id);
-                    startActivity(i);
+//                    Intent i = new Intent(root.getContext(), BookFragment.class);
+//                    i.putExtra("id",id);
+//                    startActivity(i);
+                    FragmentManager fragmentManager=getParentFragmentManager();
+                    FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                    List<Fragment> existingFragments = fragmentManager.getFragments();
+                    Log.d("isListExist",(existingFragments != null)+"");
+                    Fragment currentShownFragment = null;
+                    //проверяем, есть ли на экране отображаемые фрагменты
+                    if (existingFragments != null) {
+                        for (Fragment fragment : existingFragments) {
+                            if (fragment.isVisible()) {
+                                currentShownFragment = fragment;
+                                break;
+                            }
+                        }
+                    }
+                    BookFragment fragment=new BookFragment();
+                    Bundle bundle=new Bundle();
+                    bundle.putInt("id",id);
+                    fragment.setArguments(bundle);
+                    fragmentTransaction.add(R.id.nav_host_fragment,fragment,SELECTED_BOOK);
+                    fragmentTransaction.addToBackStack("PREVIOUS");
+                    fragmentTransaction.hide(currentShownFragment);
+                    fragmentTransaction.show(fragment).commit();
                 }
             });
             booksRecyclerView.setAdapter(recyclerViewBooksAdapter);

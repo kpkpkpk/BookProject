@@ -12,7 +12,7 @@ public class Book {
     private String image_url;
     private int rating;
     /**
-     * Для BookActivity
+     * Для BookFragment
      **/
 
     public Book(String tag, String book_name, String authorName, String description, String image_url,int rating) {

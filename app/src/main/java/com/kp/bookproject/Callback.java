@@ -10,5 +10,6 @@ public interface Callback {
     public void onStart();
     public void onComplete(ArrayList<LinearLayout> linearLayouts);
     public void onComplete(Book book);
+    public void onComplete();
 
 }
