@@ -16,8 +16,8 @@
     <string name="main_tag_14">Эпос и фольклор</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_dashboard">Search</string>
+    <string name="title_notifications">Account</string>
     <string name="recommendation_string">Возможно вам понравятся книги по данному тегу на основании рейтинга: </string>
     <string name="to_name">Персональные подборки для тебя, </string>
 </resources>

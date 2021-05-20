@@ -6,9 +6,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.kp.bookproject.PostgresControllers.DatabaseController;
 import com.kp.bookproject.ui.home.HomeFragment;
-import com.kp.bookproject.ui.notifications.NotificationsFragment;
+import com.kp.bookproject.ui.account.AccountFragment;
 import com.kp.bookproject.ui.search.SearchFragment;
 
 import androidx.annotation.NonNull;
@@ -16,26 +15,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import java.util.List;
 
+import static com.kp.bookproject.Constants.FRAGMENT_ACCOUNT_TAG;
 import static com.kp.bookproject.Constants.FRAGMENT_HOME_TAG;
-import static com.kp.bookproject.Constants.FRAGMENT_NOTIFICATIONS_TAG;
+
 import static com.kp.bookproject.Constants.FRAGMENT_SEARCH_TAG;
-import static com.kp.bookproject.Constants.SELECTED_BOOK;
 
 public class MainActivity extends AppCompatActivity {
 
+    private BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
 
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -48,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(FRAGMENT_HOME_TAG);
 
                         return true;
-                    case R.id.navigation_dashboard:
+                    case R.id.navigation_search:
 
                         changeFragment(FRAGMENT_SEARCH_TAG);
 
                         return true;
-                    case R.id.navigation_notifications:
-                        changeFragment(FRAGMENT_NOTIFICATIONS_TAG);
+                    case R.id.navigation_account:
+                        changeFragment(FRAGMENT_ACCOUNT_TAG);
 
                         return true;
                 }
@@ -72,13 +68,14 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 //        NavigationUI.setupWithNavController(navView, navController);
     }
+
     private void changeFragment(String neededToShowFragmentTag) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         List<Fragment> existingFragments = fragmentManager.getFragments();
-        Log.d("isListExist",(existingFragments != null)+"");
+        Log.d("isListExist", (existingFragments != null) + "");
         Fragment currentShownFragment = null;
         //проверяем, есть ли на экране отображаемые фрагменты
         if (existingFragments != null) {
@@ -89,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        Log.d("isShownFragment",(currentShownFragment==null)+"");
+        Log.d("isShownFragment", (currentShownFragment == null) + "");
 
         //Если отображаемого фрагмента нет или выбирается другая вкладка, то
 
         if (currentShownFragment == null || !currentShownFragment.getTag().equals(neededToShowFragmentTag)) {
-           //мы определяем, есть ли уже раннее созданный готовый фрагмент
+            //мы определяем, есть ли уже раннее созданный готовый фрагмент
             Fragment neededToShowFragment = fragmentManager.findFragmentByTag(neededToShowFragmentTag);
             //если нет, то берем с функции обозначаемый тег и проходимся по свитчу
             if (neededToShowFragment == null) {
@@ -105,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
                     case "fragment_search":
                         neededToShowFragment = new SearchFragment();
                         break;
-                    case "fragment_notifications":
-                        neededToShowFragment=new NotificationsFragment();
+                    case "fragment_account":
+                        neededToShowFragment = new AccountFragment();
                 }
                 //после уже в fragment transaction будем добавлен необходимый фрагмент
                 fragmentTransaction.add(R.id.nav_host_fragment, neededToShowFragment, neededToShowFragmentTag);
@@ -124,19 +121,46 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     @Override
     public void onBackPressed() {
-
-        int count = getSupportFragmentManager().getBackStackEntryCount();
+        FragmentManager manager=getSupportFragmentManager();
+        int count = manager.getBackStackEntryCount();
 
         if (count == 0) {
             super.onBackPressed();
             //additional code
-        } else{
-            getSupportFragmentManager().popBackStack();
-        }
+        } else {
 
+            manager.popBackStackImmediate();
+            List<Fragment> existingFragments =manager.getFragments();
+            Fragment currentShownFragment = null;
+            //проверяем, есть ли на экране отображаемые фрагменты
+            if (existingFragments != null) {
+                for (Fragment fragment : existingFragments) {
+                    if (fragment.isVisible()) {
+                        currentShownFragment = fragment;
+                        break;
+                    }
+                }
+            }
+
+            Toast.makeText(this, ""+currentShownFragment.getTag(), Toast.LENGTH_SHORT).show();
+            switch (currentShownFragment.getTag()) {
+                case FRAGMENT_HOME_TAG:
+                    navView.setSelectedItemId(R.id.navigation_home);
+                    break;
+                case FRAGMENT_SEARCH_TAG:
+                    navView.setSelectedItemId(R.id.navigation_search);
+                    break;
+                case FRAGMENT_ACCOUNT_TAG:
+                    navView.setSelectedItemId(R.id.navigation_account);
+                    break;
+            }
+        }
     }
+
+
 
 
 }

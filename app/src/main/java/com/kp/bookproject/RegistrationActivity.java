@@ -76,7 +76,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-
+                                    Toast.makeText(RegistrationActivity.this, "Вы успешно зарегестрировались, выбрать изображение профиля можно во вкладке Аккаунт", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(RegistrationActivity.this, FavouriteTagsActivity.class));
                                     finish();
                                 }

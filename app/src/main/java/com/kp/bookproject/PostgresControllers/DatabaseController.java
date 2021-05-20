@@ -284,7 +284,6 @@ public class DatabaseController {
             connection = databaseConnection.returnConnection();
             statement = connection.createStatement();
             StringBuilder sql = new StringBuilder("select tags.nametag,book_name,description,authors.author_name,book_image,rating from books,authors,tags where books.id=");
-
             sql.append(id).append(" and tags.id=tags_id[array_length(books.tags_id,1)] and authors.id=author_id");
             Log.d("setF", sql.toString() + "");
             resultSet = statement.executeQuery(sql.toString());
