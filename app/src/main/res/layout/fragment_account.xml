@@ -54,7 +54,7 @@
         android:layout_below="@id/v1" />
     <View
         android:layout_width="match_parent"
-        android:layout_below="@id/liked_books_button"
+        android:layout_below="@id/account_liked_books_button"
         android:background="#C0C0C0"
         android:layout_margin="4dp"
         android:id="@+id/v2"
@@ -65,7 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_light"
-        android:background="@android:color/transparent"
+        android:shadowColor="@android:color/darker_gray"
+        android:backgroundTint="#DFDEDE"
         android:layout_alignParentBottom="true"
         android:text="Выход"/>
 </RelativeLayout>
