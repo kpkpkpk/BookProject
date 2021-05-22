@@ -47,6 +47,7 @@
         android:clickable="true"
         android:focusable="true"
         android:layout_margin="4dp"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="Понравившиеся произведения"
         android:textSize="12sp"
         android:layout_width="match_parent"
