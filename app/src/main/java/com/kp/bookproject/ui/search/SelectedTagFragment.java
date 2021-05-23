@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,12 +32,13 @@ import com.kp.bookproject.ui.bookpage.BookFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kp.bookproject.Constants.FRAGMENT_SEARCH_TAG;
 import static com.kp.bookproject.Constants.SELECTED_BOOK;
 import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 
 public class SelectedTagFragment extends Fragment {
     private View root;
-    private TextView selectedTagText;
+//    private TextView selectedTagText;
     private ChipGroup chipGroupForTags;
     private RecyclerView booksRecyclerView;
     private ArrayList<Book> books;
@@ -46,13 +49,15 @@ public class SelectedTagFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
       root=inflater.inflate(R.layout.fragment_selected_tags,container,false);
-        selectedTagText=root.findViewById(R.id.selected_tag_text);
-        selectedTagText.setText(getArguments().getString("tag"));
+//        selectedTagText=root.findViewById(R.id.selected_tag_text);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       Toolbar toolbar=getActivity().findViewById(R.id.tool_bar);
+        toolbar.setTitle(getArguments().getString("tag"));
         chipGroupForTags=root.findViewById(R.id.chip_group_for_tags);
         booksRecyclerView=root.findViewById(R.id.recycler_view_books_with_selected_tag);
         progressBar=root.findViewById(R.id.fragment_selected_tags_progressbar);
         progressBar.setVisibility(View.VISIBLE);
-        selectedTagText.setVisibility(View.GONE);
+//        selectedTagText.setVisibility(View.GONE);
         booksRecyclerView.setVisibility(View.GONE);
         chipGroupForTags.setVisibility(View.GONE);
       return root;
@@ -76,17 +81,21 @@ public class SelectedTagFragment extends Fragment {
                     //после завершения загрузки убираем прогресс бар и закидываем ресайклеры
                     @Override
                     public void onComplete() {
-                        getActivity().runOnUiThread(new Runnable() {
+                        try {
+                            getActivity().runOnUiThread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                              prepareChip();
-                                progressBar.setVisibility(View.GONE);
-                                selectedTagText.setVisibility(View.VISIBLE);
-                                booksRecyclerView.setVisibility(View.VISIBLE);
-                                chipGroupForTags.setVisibility(View.VISIBLE);
-                            }
-                        });
+                                @Override
+                                public void run() {
+                                    prepareChip();
+                                    progressBar.setVisibility(View.GONE);
+//                                    selectedTagText.setVisibility(View.VISIBLE);
+                                    booksRecyclerView.setVisibility(View.VISIBLE);
+                                    chipGroupForTags.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }catch (NullPointerException e){
+                            Log.d("selectedtagFragment",e.getMessage());
+                        }
 
                     }
                     //not used
@@ -195,15 +204,25 @@ public class SelectedTagFragment extends Fragment {
                 fragmentTransaction.show(fragment).commit();
             }
         });
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
-                booksRecyclerView.setLayoutManager(new GridLayoutManager(root.getContext(),2));
-                booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), GridLayoutManager.VERTICAL));
-            }
-        });
-        callback.onComplete();
+        try {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
+                    booksRecyclerView.setLayoutManager(new GridLayoutManager(root.getContext(), 2));
+                    booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), GridLayoutManager.VERTICAL));
+
+                }
+            });
+        }catch (NullPointerException e){
+            Log.d("selectedtagFragment",e.getMessage());
+        }finally {
+            callback.onComplete();
+        }
+
+
     }
+
 
 }

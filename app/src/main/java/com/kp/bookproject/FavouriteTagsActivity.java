@@ -1,17 +1,23 @@
 package com.kp.bookproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.kp.bookproject.Controller.DatabaseController;
 
 import java.util.ArrayList;
@@ -40,7 +46,6 @@ public class FavouriteTagsActivity extends AppCompatActivity {
         nextB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 List<Integer> ids = chipGroup.getCheckedChipIds();
                 Toast.makeText(FavouriteTagsActivity.this, ""+ids.toString(), Toast.LENGTH_SHORT).show();
                 for (Integer id:ids){
@@ -51,14 +56,30 @@ public class FavouriteTagsActivity extends AppCompatActivity {
                 }
                 //добавляем данные в БД
                 databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags);
-
                 startActivity(new Intent(FavouriteTagsActivity.this,MainActivity.class));
                 finish();
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseAuth.getInstance().signOut();
+                            Log.d("Tag", "User account deleted.");
+                            startActivity(new Intent(FavouriteTagsActivity.this,LoginActivity.class));
+                            finish();
+                        }
+                    }
+                });
+
+    }
 
 
 
-
-}
+    }

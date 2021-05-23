@@ -16,12 +16,11 @@ public class AccountChangesService extends JobIntentService {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-
+                DatabaseController databaseController=new DatabaseController(true);
+                databaseController.insertChanges(intent.getStringExtra("nickname"),intent.getStringExtra("filepath"));
             }
         });
         thread.start();
-        while (thread.isAlive()){
-        }
         stopSelf();
     }
     public void onDestroy() {

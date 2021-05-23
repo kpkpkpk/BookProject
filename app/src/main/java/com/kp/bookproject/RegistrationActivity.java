@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +37,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText loginField,passField,usernameField;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
+    private ProgressBar progressBar;
+    private LinearLayout layoutWithFields;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,8 @@ public class RegistrationActivity extends AppCompatActivity {
         passField=findViewById(R.id.passwordActField);
         usernameField=findViewById(R.id.userActField);
         firebaseAuth=FirebaseAuth.getInstance();
+        progressBar=findViewById(R.id.registration_activity_progressBar);
+        layoutWithFields=findViewById(R.id.fieldsLayout);
         regButton=findViewById(R.id.regActButton);
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +78,10 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    progressBar.setVisibility(View.VISIBLE);
+                    layoutWithFields.setVisibility(View.GONE);
+                    TextView textView=findViewById(R.id.activity_registration_text);
+                    textView.setVisibility(View.GONE);
                     FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
                     String userId=null;
                     if(firebaseUser != null){
@@ -93,6 +104,9 @@ public class RegistrationActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
+                                            progressBar.setVisibility(View.GONE);
+                                            layoutWithFields.setVisibility(View.VISIBLE);
+                                            textView.setVisibility(View.VISIBLE);
                                             Toast.makeText(RegistrationActivity.this, "Вы успешно зарегестрировались, выбрать изображение профиля можно во вкладке Аккаунт", Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(RegistrationActivity.this, FavouriteTagsActivity.class));
                                             finish();
@@ -119,5 +133,6 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }

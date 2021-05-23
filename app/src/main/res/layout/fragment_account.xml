@@ -50,7 +50,7 @@
         android:layout_margin="4dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="Понравившиеся произведения"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/acc_v1" />

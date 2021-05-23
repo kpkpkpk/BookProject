@@ -35,7 +35,10 @@ import com.kp.bookproject.ui.search.SelectedTagFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kp.bookproject.Constants.EDIT_PROFILE_TAG;
+import static com.kp.bookproject.Constants.FRAGMENT_ACCOUNT_TAG;
 import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
+import static com.kp.bookproject.Constants.SHOW_LIKED_TAG;
 
 public class AccountFragment extends Fragment {
 
@@ -91,7 +94,32 @@ public class AccountFragment extends Fragment {
                 bundle.putString("username",userAccount.getUsername());
                 bundle.putString("imageUrl",userAccount.getImageUrl());
                 fragment.setArguments(bundle);
-                fragmentTransaction.add(R.id.nav_host_fragment,fragment,SELECTED_TAG_FRAGMENT);
+                fragmentTransaction.add(R.id.nav_host_fragment,fragment,EDIT_PROFILE_TAG);
+                fragmentTransaction.addToBackStack("PREVIOUS");
+                fragmentTransaction.hide(currentShownFragment);
+                fragmentTransaction.show(fragment).commit();
+            }
+        });
+        likedBooksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager=getParentFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                List<Fragment> existingFragments = fragmentManager.getFragments();
+                Log.d("isListExist",(existingFragments != null)+"");
+                Fragment currentShownFragment = null;
+                //проверяем, есть ли на экране отображаемые фрагменты
+                if (existingFragments != null) {
+                    for (Fragment fragment : existingFragments) {
+                        if (fragment.isVisible()) {
+                            currentShownFragment = fragment;
+                            break;
+                        }
+                    }
+                }
+
+                ShowLikedBooksFragment fragment=new ShowLikedBooksFragment();
+                fragmentTransaction.add(R.id.nav_host_fragment,fragment,SHOW_LIKED_TAG);
                 fragmentTransaction.addToBackStack("PREVIOUS");
                 fragmentTransaction.hide(currentShownFragment);
                 fragmentTransaction.show(fragment).commit();
@@ -131,11 +159,12 @@ public class AccountFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
+                        try {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Glide.with(root.getContext()).load(userAccount.getImageUrl()).into(userImage);
-                                greetingUserTextView.setText("Привет,"+userAccount.getUsername());
+                                greetingUserTextView.setText("Привет, " + userAccount.getUsername());
                                 progressBar.setVisibility(View.GONE);
                                 editProfileCardView.setVisibility(View.VISIBLE);
                                 greetingUserTextView.setVisibility(View.VISIBLE);
@@ -146,6 +175,9 @@ public class AccountFragment extends Fragment {
                                 v2.setVisibility(View.VISIBLE);
                             }
                         });
+                    }catch(NullPointerException e){
+                            Log.d("accountfragment",e.getMessage());
+                        }
                     }
                 });
             }

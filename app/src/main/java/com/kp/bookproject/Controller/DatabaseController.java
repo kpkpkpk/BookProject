@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -643,18 +644,45 @@ boolean check=false;
 
     }
     public void insertChanges(String newUserName,String pathFile){
-        File file=new File(pathFile);
-       Uri link= Uri.fromFile(file);
-        FirebaseStorage firebaseStorage=FirebaseStorage.getInstance();
-        StorageReference storageRef = firebaseStorage.getReference();
-        StorageReference riversRef = storageRef.child("usersavatar/"+firebaseAuth.getCurrentUser().getUid());
-        UploadTask uploadTask=riversRef.putFile(link);
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d("success",taskSnapshot.getTotalByteCount()+"");
-            }
-        });
+        String userId=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(pathFile.length()!=0) {
+            File file = new File(pathFile);
+            Uri link = Uri.fromFile(file);
+            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+            StorageReference storageRef = firebaseStorage.getReference();
+            StorageReference riversRef = storageRef.child("usersavatar/" +userId ).child("/avatar");
+
+            UploadTask uploadTask = riversRef.putFile(link);
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return riversRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        databaseReference=FirebaseDatabase.getInstance().getReference("Users").child(userId+"/image_url");
+                        databaseReference.setValue(downloadUri.toString());
+                    } else {
+                        // Handle failures
+                        // ...
+                    }
+                }
+            });
+            databaseReference=FirebaseDatabase.getInstance().getReference("Users").child(userId+"/username");
+            databaseReference.setValue(newUserName);
+
+        }else{
+            databaseReference=FirebaseDatabase.getInstance().getReference("Users").child(userId+"/username");
+            databaseReference.setValue(newUserName);
+        }
     }
 
     public Account getUserAccount() {
@@ -665,6 +693,82 @@ boolean check=false;
         isall=false;
         Log.d("userAccount",userAccount.toString());
         return userAccount;
+    }
+
+    public ArrayList<Book> getLikedBooks(){
+        ArrayList<Book> likedBooks=new ArrayList<>();
+        ArrayList<Integer> likedBooksId=new ArrayList<>();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String userId = null;
+        if (firebaseUser != null) {
+            userId = firebaseUser.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("liked_books");
+            HashMap<String, Boolean> map = new HashMap<>();
+            //решил сразу добавить лайкнутых авторов, чтоб не было проблемс с этим
+            //сначала айдишник в кач-ве ключа, а второе значение - к-во лайков
+            databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        GenericTypeIndicator<HashMap<String,Boolean>> arrayListGenericTypeIndicator =
+                                new GenericTypeIndicator<HashMap<String,Boolean>>() {
+                                };
+                        try {
+                            map.putAll(Objects.requireNonNull(task.getResult().getValue(arrayListGenericTypeIndicator)));
+                            Log.d("map", "onComplete: "+map.toString());
+                            isall=true;
+                        } catch (NullPointerException ex) {
+                            Log.d("deletes", "null err");
+                            isall=true;
+                        }
+
+                    }
+
+                }
+            });
+            while (!isall){
+            Log.d("sre","logaem");
+            }
+            isall=false;
+            if(!map.isEmpty()) {
+                for (String str :
+                        map.keySet()) {
+                    likedBooksId.add(Integer.valueOf(str));
+                }
+                try {
+                    connection = databaseConnection.returnConnection();
+                    statement = connection.createStatement();
+                    for (Integer id:
+                         likedBooksId) {
+                        StringBuilder sql = new StringBuilder("select books.id,book_name,authors.author_name,book_image from books,authors where books.id=");
+                        //добавляем название тега
+                        sql.append(id).append(" and authors.id=author_id");
+                        Log.d("setF", sql.toString() + "");
+                        resultSet = statement.executeQuery(sql.toString());
+                        while (resultSet.next()) {
+                            Book book = new Book(resultSet.getInt("id")
+                                    , resultSet.getString("book_name")
+                                    , resultSet.getString("author_name")
+                                    , resultSet.getString("book_image")
+                            );
+                            Log.d("getBooksLog", book.toString());
+                            likedBooks.add(book);
+                        }
+                    }
+
+
+                } catch (Exception err) {
+                    Log.d("getBooksLog", err.getMessage());
+                }
+
+
+            }
+
+
+        } else {
+            Log.d("likedbooksfirebase", "err");
+        }
+        return likedBooks;
     }
 }
 

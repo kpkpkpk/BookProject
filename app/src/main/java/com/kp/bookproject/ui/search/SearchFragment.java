@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static com.kp.bookproject.Constants.FRAGMENT_SEARCH_TAG;
 import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 
 public class SearchFragment extends Fragment {

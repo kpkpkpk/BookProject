@@ -1,5 +1,6 @@
 package com.kp.bookproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -7,12 +8,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kp.bookproject.ui.home.HomeFragment;
 import com.kp.bookproject.ui.account.AccountFragment;
 import com.kp.bookproject.ui.search.SearchFragment;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -48,16 +54,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (itemId) {
                     case R.id.navigation_home:
                         toolbar.setTitle("Главная");
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         changeFragment(FRAGMENT_HOME_TAG);
 
                         return true;
                     case R.id.navigation_search:
                         toolbar.setTitle("Поиск");
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         changeFragment(FRAGMENT_SEARCH_TAG);
 
                         return true;
                     case R.id.navigation_account:
                         toolbar.setTitle("Профиль");
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         changeFragment(FRAGMENT_ACCOUNT_TAG);
 
                         return true;
@@ -132,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         FragmentManager manager=getSupportFragmentManager();
         int count = manager.getBackStackEntryCount();
 
@@ -141,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             manager.popBackStackImmediate();
+
             List<Fragment> existingFragments =manager.getFragments();
             Fragment currentShownFragment = null;
             //проверяем, есть ли на экране отображаемые фрагменты
@@ -152,15 +163,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
             switch (currentShownFragment.getTag()) {
                 case FRAGMENT_HOME_TAG:
+                    if ((getSupportActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP) != 0) {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    }
                     navView.setSelectedItemId(R.id.navigation_home);
                     break;
                 case FRAGMENT_SEARCH_TAG:
+                    if ((getSupportActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP) != 0) {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    }
                     navView.setSelectedItemId(R.id.navigation_search);
                     break;
                 case FRAGMENT_ACCOUNT_TAG:
+                    if ((getSupportActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP) != 0) {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    }
                     navView.setSelectedItemId(R.id.navigation_account);
                     break;
             }
@@ -170,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 onBackPressed();
 
                 break;

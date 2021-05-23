@@ -14,26 +14,6 @@
         android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/fragment_editprofile_bottom_sheet_use_camera"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:padding="16dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/baseline_photo_camera_24"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            android:text="Использовать камеру"/>
-    </LinearLayout>
-    <LinearLayout
 
         android:id="@+id/fragment_editprofile_bottom_sheet_use_gallery"
         android:layout_width="match_parent"
@@ -53,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
-            android:text="Выбрать с галереи"/>
+            android:text="Выбрать фото"/>
     </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

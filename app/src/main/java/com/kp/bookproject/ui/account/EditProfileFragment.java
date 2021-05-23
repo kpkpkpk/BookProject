@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.JobIntentService;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,13 +34,20 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.kp.bookproject.Entity.Account;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.bookpage.ImportRatingService;
 import com.kp.bookproject.ui.home.HomeFragment;
 import com.kp.bookproject.ui.search.SelectedTagFragment;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.kp.bookproject.Constants.FRAGMENT_ACCOUNT_TAG;
 import static com.kp.bookproject.Constants.FRAGMENT_HOME_TAG;
+import static com.kp.bookproject.Constants.JOB_ID;
+import static com.kp.bookproject.Constants.JOB_ID_CHANGES;
 import static com.kp.bookproject.Constants.PICK_PHOTO_FROM_GALLERY;
 import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 
@@ -51,10 +59,13 @@ public class EditProfileFragment extends Fragment {
     private StringBuilder filepath;
     private BottomSheetDialog imageBottomSheetDialog;
     private Toolbar toolbar;
+    private Fragment fragment;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_editprofile, container, false);
         setHasOptionsMenu(true);
+        fragment=this;
+        filepath=new StringBuilder();
         toolbar=getActivity().findViewById(R.id.tool_bar);
         changePhotoClickableTextView=root.findViewById(R.id.fragment_editprofile_change_photo_text_button);
         nickname=root.findViewById(R.id.fragment_editprofile_nickname_edittext);
@@ -76,14 +87,12 @@ public class EditProfileFragment extends Fragment {
         imageBottomSheetDialog=new BottomSheetDialog(getActivity(),R.style.SheetDialog);
         View sheetView=getActivity().getLayoutInflater().inflate(R.layout.select_image_bottom_sheet,null);
         imageBottomSheetDialog.setContentView(sheetView);
-        LinearLayout useCamera =  sheetView.findViewById(R.id.fragment_editprofile_bottom_sheet_use_camera);
+
         LinearLayout useGallery = sheetView.findViewById(R.id.fragment_editprofile_bottom_sheet_use_gallery);
         useGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, PICK_PHOTO_FROM_GALLERY);
+                CropImage.activity().start(getContext(),fragment);
             }
         });
     }
@@ -105,6 +114,10 @@ public class EditProfileFragment extends Fragment {
                 break;
 
                 case R.id.check_mark:
+                    Intent i=new Intent(getContext(),AccountChangesService.class);
+                    i.putExtra("filepath",filepath.toString());
+                    i.putExtra("nickname",nickname.getText().toString());
+                    JobIntentService.enqueueWork(root.getContext(), AccountChangesService.class,JOB_ID_CHANGES,i);
                     FragmentManager fragmentManager=getParentFragmentManager();
                     FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                     List<Fragment> existingFragments = fragmentManager.getFragments();
@@ -119,40 +132,29 @@ public class EditProfileFragment extends Fragment {
                             }
                         }
                     }
-                    AccountFragment fragment=new AccountFragment();
-                    toolbar.setTitle("Профиль");
-                    fragmentManager.popBackStack();
                     ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                Toast.makeText(getActivity(), "accepted", Toast.LENGTH_SHORT).show();
+                    getActivity().getSupportFragmentManager().popBackStackImmediate();
                 break;
         }
          return super.onOptionsItemSelected(item);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PHOTO_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            if (data == null) {
-                return;
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                userImage.setImageURI(resultUri);
+                imageBottomSheetDialog.dismiss();
+                File file=new File(resultUri.getPath());
+
+                filepath.append(file.getAbsolutePath());
+                Toast.makeText(getActivity(), "res  "+  file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }
-            String string=getPath(data.getData());
-            Toast.makeText(getActivity(), data.getData()+"toast"+string, Toast.LENGTH_SHORT).show();
-            //Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
         }
     }
     //
-    private String getPath(Uri uri){
 
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        StringBuilder builder=new StringBuilder();
-        Cursor cursor = root.getContext().getContentResolver().query(
-                uri, filePathColumn, null, null, null);
-        cursor.moveToFirst();
-
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-       builder.append(cursor.getString(columnIndex));
-        cursor.close();
-
-        return builder.toString();
-    }
 }

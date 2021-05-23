@@ -1,6 +1,7 @@
    package com.kp.bookproject.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,9 +22,21 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
+import com.kp.bookproject.LoginActivity;
+import com.kp.bookproject.MainActivity;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
@@ -32,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.kp.bookproject.Constants.FRAGMENT_HOME_TAG;
 import static com.kp.bookproject.Constants.SELECTED_BOOK;
 import static com.kp.bookproject.Constants.SELECTED_TAGS_COUNT;
 import static com.kp.bookproject.Constants.SELECTED_TAGS_KEY;
@@ -62,10 +76,11 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
-    ArrayList<LinearLayout> layouts;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -74,27 +89,29 @@ public class HomeFragment extends Fragment {
                         public void onStart() {
 
                         }
-            //после завершения загрузки убираем прогресс бар и закидываем ресайклеры
+
+                        //после завершения загрузки убираем прогресс бар и закидываем ресайклеры
                         @Override
                         public void onComplete(ArrayList<LinearLayout> linearLayouts) {
-                          getActivity().runOnUiThread(new Runnable() {
+                            getActivity().runOnUiThread(new Runnable() {
 
-                              @Override
-                              public void run() {
-                                  for (LinearLayout l:
-                                          linearLayouts) {
-                                      secondL.addView(l);
-                                  }
+                                @Override
+                                public void run() {
+                                    for (LinearLayout l :
+                                            linearLayouts) {
+                                        secondL.addView(l);
+                                    }
 
-                                  progressBar.setVisibility(View.GONE);
-                                  secondL.setVisibility(View.VISIBLE);
-                                  text.setText("Для тебя");
-                                  text.setVisibility(View.VISIBLE);
-                              }
-                          });
+                                    progressBar.setVisibility(View.GONE);
+                                    secondL.setVisibility(View.VISIBLE);
+                                    text.setText("Для тебя");
+                                    text.setVisibility(View.VISIBLE);
+                                }
+                            });
 
                         }
-                            //not used
+
+                        //not used
                         @Override
                         public void onComplete(Book book) {
 
@@ -111,8 +128,9 @@ public class HomeFragment extends Fragment {
             });
             thread.start();
 
-        super.onActivityCreated(savedInstanceState);
-    }
+            super.onActivityCreated(savedInstanceState);
+        }
+
 
     ArrayList<Book> books;
 
@@ -120,8 +138,8 @@ public class HomeFragment extends Fragment {
     private void createBooksListView(Callback callback) {
         callback.onStart();
         DatabaseController controller=new DatabaseController();
-            ArrayList<LinearLayout> layoutL=new ArrayList<>();
-            ArrayList<Integer> arrayList=controller.getFavoriteTags();
+        ArrayList<LinearLayout> layoutL=new ArrayList<>();
+        ArrayList<Integer> arrayList=controller.getFavoriteTags();
 
 //        Создаем необходимое к-во RecyclerView для отображения первых 10 книг сортированных по рейтингу
         for (Integer i:arrayList) {
@@ -130,13 +148,13 @@ public class HomeFragment extends Fragment {
             Thread t=new Thread(new Runnable() {
                 @Override
                 public void run() {
-                   tag.append(controller.getTag(i));
+                    tag.append(controller.getTag(i));
                 }
             });
-           t.start();
-           while (t.isAlive()){
+            t.start();
+            while (t.isAlive()){
 
-           }
+            }
             //линейный лейаут нужен чтоб удобно закинуть туда текстовое поле
             LinearLayout recyclerContainer = new LinearLayout(root.getContext());
             recyclerContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -174,9 +192,9 @@ public class HomeFragment extends Fragment {
             thread.start();
 
             //дожидаемся загрузки данных
-           while(thread.isAlive()){
+            while(thread.isAlive()){
 
-           }
+            }
             Log.d("check","books is null"+books.isEmpty());
 
 
@@ -213,12 +231,13 @@ public class HomeFragment extends Fragment {
             });
             booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
             //добавляем наш контейнер на основной лейаут
-           
+
             recyclerContainer.addView(text);
             recyclerContainer.addView(booksRecyclerView);
-           layoutL.add(recyclerContainer);
+            layoutL.add(recyclerContainer);
         }
-      callback.onComplete(layoutL);
+        callback.onComplete(layoutL);
+
     }
 
 }

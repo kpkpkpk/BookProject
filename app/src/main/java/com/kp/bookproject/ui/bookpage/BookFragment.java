@@ -60,7 +60,7 @@ public class BookFragment extends Fragment {
         firstLine=root.findViewById(R.id.first_view);
         thirdLine=root.findViewById(R.id.third_view);
         toolbar=getActivity().findViewById(R.id.tool_bar);
-        toolbar.setTitle("Книга");
+        toolbar.setTitle("");
         descriptionTitle=root.findViewById(R.id.activity_book_description_title);
         genre=root.findViewById(R.id.activity_book_genre);
         bookTitle=root.findViewById(R.id.activity_book_title);
@@ -75,7 +75,7 @@ public class BookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!isChanged) {
-                    likeButton.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.like_button));
+                    likeButton.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.baseline_favorite_black_24));
                     isChanged=true;
                     book.setRating(book.getRating()+1);
                     rating.setText(Integer.toString(book.getRating()));
@@ -89,7 +89,7 @@ public class BookFragment extends Fragment {
                     secI.putExtra("Like",true);
                     JobIntentService.enqueueWork(root.getContext(),ImportAuthorService.class,JOB_ID+1,secI);
                 } else{
-                    likeButton.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.unlike_button));
+                    likeButton.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.baseline_favorite_border_black_24));
                     isChanged=false;
                     book.setRating(book.getRating()-1);
                     rating.setText(Integer.toString(book.getRating()));
@@ -138,6 +138,7 @@ public class BookFragment extends Fragment {
                     //после завершения загрузки убираем прогресс бар и закидываем ресайклеры
                     @Override
                     public void onComplete(Book receivedBook) {
+                        try {
                         BookFragment.this.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -147,15 +148,17 @@ public class BookFragment extends Fragment {
                                 rating.setText(Integer.toString(receivedBook.getRating()));
                                 description.setText(receivedBook.getDescription());
                                 genre.setText(receivedBook.getTag());
-                                if(isChanged){
+                                if (isChanged) {
                                     likeButton.setImageDrawable(ContextCompat.getDrawable(root.getContext(), R.drawable.baseline_favorite_black_24));
-                                }else{
+                                } else {
                                     likeButton.setImageDrawable(ContextCompat.getDrawable(root.getContext(), R.drawable.baseline_favorite_border_black_24));
                                 }
                                 setVisibilityForElements(true);
                             }
                         });
-
+                    }catch(NullPointerException nullPointerException){
+                            Log.d("bookfragment",nullPointerException.getMessage());
+                        }
                     }
 
                     @Override
