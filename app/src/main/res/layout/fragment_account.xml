@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.account.AccountFragment">
+<androidx.cardview.widget.CardView
+    android:layout_alignParentStart="true"
+    android:id="@+id/cardView"
+    android:clickable="true"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="6dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_margin="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:focusable="true">
+<com.google.android.material.imageview.ShapeableImageView
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:scaleType="centerCrop"
+    android:id="@+id/fragment_account_user_image"
+    android:layout_gravity="start|center"
+    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"/>
+    <TextView
+        android:id="@+id/fragment_account_greeting_text"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Привет, юзер"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:src="@drawable/baseline_navigate_next_24"/>
+</androidx.cardview.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@id/cardView"
+        android:background="#C0C0C0"
+        android:layout_margin="4dp"
+        android:id="@+id/acc_v1"
+        android:layout_height="1dp"/>
+    <TextView
+        android:id="@+id/account_liked_books_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="4dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/fragment_account_liked_button_text"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/acc_v1" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@id/account_liked_books_button"
+        android:background="#C0C0C0"
+        android:layout_margin="4dp"
+        android:id="@+id/acc_v2"
+        android:layout_marginEnd="10dp"
+        android:layout_height="1dp"/>
+    <Button
+        android:id="@+id/exit_account_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:shadowColor="@android:color/darker_gray"
+        android:backgroundTint="@android:color/darker_gray"
+        android:layout_alignParentBottom="true"
+        android:textAllCaps="false"
+        android:text="@string/fragment_account_exit_button_text"/>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/fragment_account_progressbar"/>
+</RelativeLayout>

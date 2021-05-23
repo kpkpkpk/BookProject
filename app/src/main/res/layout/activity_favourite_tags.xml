@@ -12,14 +12,14 @@
         android:layout_marginTop="50dp"
         android:layout_marginStart="10dp"
         android:textSize="30sp"
-        android:text="Choose favorite genres"/>
+        android:text="@string/select_tags_title"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginStart="10dp"
         android:textSize="20sp"
-        android:text="Выберите не менее 3 тегов"/>
+        android:text="@string/select_tags_hint"/>
 
     <com.google.android.material.chip.ChipGroup
         android:layout_marginTop="50dp"
@@ -138,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:text="Далее"
+        android:text="@string/select_tags_next"
         android:textSize="20sp"
         android:id="@+id/clickable_text_to_next_activity"
         android:focusable="true" />

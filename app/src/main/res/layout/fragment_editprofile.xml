@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:id="@+id/fragment_editprofile_image_profile"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="60dp"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"/>
+    `<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:text="@string/editprofile_fragment_change_photo_button"
+    android:textColor="#2196F3"
+    android:clickable="true"
+    android:id="@+id/fragment_editprofile_change_photo_text_button"
+    android:layout_marginTop="30dp"
+    android:focusable="true"
+    android:layout_below="@id/fragment_editprofile_image_profile"
+    android:layout_centerInParent="true"
+    android:textSize="14sp"/>
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/linearlayout_with_edittext"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_editprofile_change_photo_text_button">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_hint_nickname"/>
+        <EditText
+            android:id="@+id/fragment_editprofile_nickname_edittext"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

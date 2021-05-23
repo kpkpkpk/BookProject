@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="130dp"
     android:layout_height="wrap_content">
     <ImageView
+        android:layout_alignParentTop="true"
         android:layout_width="110dp"
         android:layout_height="170dp"
+        android:layout_margin="10dp"
         android:scaleType="centerCrop"
         android:id="@+id/image_book_item"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
-
+        android:textSize="12sp"
+        android:layout_margin="5dp"
+        android:maxLines="1"
+        android:maxLength="20"
+        android:ellipsize="end"
+        android:text="testtesteststesteste"
+        android:layout_below="@id/image_book_item"
         android:id="@+id/book_author_name"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="asjdfadjsjfksadfasdfj;sadjjddjdjjjdjddjdjdjdf"
+        android:maxLines="1"
         android:textSize="15sp"
+        android:maxLength="25"
         android:ellipsize="end"
-
-        android:minEms="2"
-        android:id="@+id/book_name_item"/>
+        android:id="@+id/book_name_item"
+        android:layout_below="@id/book_author_name"/>
 
     
 
-</LinearLayout>
+</RelativeLayout>

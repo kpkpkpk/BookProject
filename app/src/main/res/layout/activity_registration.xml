@@ -1,60 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     tools:context=".RegistrationActivity">
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:id="@+id/registration_activity_progressBar"
+        android:visibility="gone"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registration"
+        android:text="@string/registration_title"
+        android:id="@+id/activity_registration_text"
+        android:layout_centerInParent="true"
         android:textSize="24sp"
-        android:layout_marginTop="200dp"
+        android:layout_above="@id/fieldsLayout"
         android:fontFamily="sans-serif"
-        android:layout_gravity="center"/>
+        />
     <LinearLayout
+        android:id="@+id/fieldsLayout"
+        android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center"
+
         >
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:id="@+id/userActField"
-            android:hint="Username"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
+            android:hint="@string/registration_hint_nickname"/>
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
+            android:layout_marginTop="3dp"
             android:id="@+id/loginActField"
             android:inputType="textEmailAddress"
-            android:hint="Email"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
+            android:hint="@string/activity_login_hint"/>
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:inputType="textPassword"
+            android:layout_marginTop="3dp"
             android:layout_marginRight="50dp"
             android:id="@+id/passwordActField"
-            android:hint="Password"/>
+            android:hint="@string/activity_login_pass_hint"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/regActButton"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:text="Register"
+            android:layout_marginTop="5dp"
+            android:text="@string/activity_registration_title_button"
             android:textAllCaps="false"
             />
     </LinearLayout>
 
 
 
-</LinearLayout>
+</RelativeLayout>

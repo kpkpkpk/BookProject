@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.bookpage.BookFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="270dp"
+                android:layout_alignParentStart="true"
+                android:id="@+id/activity_book_image"/>
+            <RelativeLayout
+                android:layout_toEndOf="@id/activity_book_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <View
+                    android:layout_marginTop="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="match_parent"
+                    android:background="#C0C0C0"
+                    android:id="@+id/first_view"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="1dp"/>
+                <TextView
+                    android:layout_below="@id/first_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activity_book_title"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp"
+                    android:textSize="20sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_gravity=""
+                    android:text="NULL"/>
+
+                <TextView
+                    android:layout_below="@id/activity_book_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="normal"
+                    android:text="author: null"
+                    android:textSize="15sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+
+                    android:id="@+id/activity_book_author_name"/>
+                <TextView
+                    android:layout_below="@id/activity_book_author_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/activity_book_genre"
+                    android:textSize="15sp"
+                    android:text="Жанр: NULL"/>
+
+                    <TextView
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Количество лайков: 00"
+                        android:layout_below="@id/activity_book_genre"
+                        android:layout_gravity="center"
+
+                        android:layout_marginStart="20dp"
+                        android:id="@+id/activity_book_rating"/>
+
+
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    <!-- Отступ -->
+
+
+<!--  Для к-ва лайков и кнопки лайка-->
+
+
+<!--отступ-->
+    <View
+        android:layout_width="match_parent"
+        android:background="#C0C0C0"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/third_view"
+        android:layout_marginRight="10dp"
+        android:layout_height="1dp"/>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textStyle="bold"
+    android:id="@+id/activity_book_description_title"
+    android:layout_marginTop="20dp"
+    android:layout_marginStart="20dp"
+    android:text="@string/book_fragment_description"/>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_gravity="center"
+                android:id="@+id/activity_book_description"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:clickable="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_height="wrap_content"
+                android:focusable="true" />
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_book_progressbar"
+        android:layout_gravity="center"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/activity_book_like_button"
+        android:layout_width="wrap_content"
+       android:background="?android:colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:contentDescription="like"
+        app:srcCompat="@drawable/baseline_favorite_border_black_24"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
