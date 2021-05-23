@@ -1,5 +1,6 @@
 package com.kp.bookproject.ui.search;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,12 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -27,6 +31,7 @@ import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
+import com.kp.bookproject.ui.account.LikedRecyclerViewAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
 
 import java.util.ArrayList;
@@ -151,6 +156,8 @@ public class SelectedTagFragment extends Fragment {
       });
                 chipGroupForTags.addView(chip);
             }
+        }else{
+            chipGroupForTags.setVisibility(View.GONE);
         }
     }
 
@@ -173,9 +180,9 @@ public class SelectedTagFragment extends Fragment {
         }
         Log.d("check","books is null"+books.isEmpty());
 
-
-       RecyclerViewBooksAdapter recyclerViewBooksAdapter = new RecyclerViewBooksAdapter(books, root.getContext());
-        recyclerViewBooksAdapter.setClickListener(new RecyclerViewBooksAdapter.ItemClickListener() {
+//Пришлось использовать другой адаптер, потому что просто напросто GridView смотрится ужасно
+       LikedRecyclerViewAdapter recyclerViewBooksAdapter = new LikedRecyclerViewAdapter(books, root.getContext());
+        recyclerViewBooksAdapter.setClickListener(new LikedRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int id) {
 //                    Intent i = new Intent(root.getContext(), BookFragment.class);
@@ -209,10 +216,11 @@ public class SelectedTagFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
                     booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
-                    booksRecyclerView.setLayoutManager(new GridLayoutManager(root.getContext(), 2));
-                    booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), GridLayoutManager.VERTICAL));
+                    booksRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false));
+                    booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), LinearLayout.VERTICAL));
+
+
 
                 }
             });

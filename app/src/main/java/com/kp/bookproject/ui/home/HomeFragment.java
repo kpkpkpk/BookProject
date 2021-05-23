@@ -3,6 +3,8 @@
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
+import com.kp.bookproject.Entity.News;
+import com.kp.bookproject.Entity.NewsApiAnswer;
 import com.kp.bookproject.LoginActivity;
 import com.kp.bookproject.MainActivity;
 import com.kp.bookproject.R;
@@ -43,6 +48,11 @@ import com.kp.bookproject.ui.bookpage.BookFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.kp.bookproject.Constants.FRAGMENT_HOME_TAG;
@@ -56,24 +66,33 @@ public class HomeFragment extends Fragment {
     private RecyclerViewBooksAdapter recyclerViewBooksAdapter;
     private String name;
     private View root;
-    private LinearLayout mainLayout,secondL;
-    private TextView text,waitText;
+    private LinearLayout secondL;
+    private RelativeLayout mainLayout;
+    private TextView text,lastNews;
     private ProgressBar progressBar;
-
+    private RecyclerView recyclerViewNews;
+    private final String BASE_URL="https://newsapi.org/";
+    private final String API_KEY="3b2651d3eb8445068640c622f7138762";
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerViewNews=root.findViewById(R.id.fragment_home_recycler_view_news);
+        recyclerViewNews.setLayoutManager(new LinearLayoutManager(root.getContext(),RecyclerView.HORIZONTAL,false));
+        recyclerViewNews.addItemDecoration(new DividerItemDecoration(root.getContext(), LinearLayoutManager.HORIZONTAL));
+
         mainLayout = root.findViewById(R.id.main_layout_fragment_home);
         secondL=root.findViewById(R.id.container_layout);
         progressBar=root.findViewById(R.id.progressBar);
+        lastNews=root.findViewById(R.id.fragment_home_text_news);
         text =root.findViewById(R.id.text_home);
-        waitText=root.findViewById(R.id.waitText);
+
        //подготавливаем вью, делаем прогресс бар видимым
+        recyclerViewNews.setVisibility(View.GONE);
         secondL.setVisibility(View.GONE);
         text.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-
+        lastNews.setVisibility(View.GONE);
         return root;
     }
 
@@ -84,6 +103,7 @@ public class HomeFragment extends Fragment {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    getNews();
                     createBooksListView(new Callback() {
                         @Override
                         public void onStart() {
@@ -103,8 +123,9 @@ public class HomeFragment extends Fragment {
                                     }
 
                                     progressBar.setVisibility(View.GONE);
+                                    recyclerViewNews.setVisibility(View.VISIBLE);
                                     secondL.setVisibility(View.VISIBLE);
-                                    text.setText("Для тебя");
+                                    lastNews.setVisibility(View.VISIBLE);
                                     text.setVisibility(View.VISIBLE);
                                 }
                             });
@@ -157,16 +178,23 @@ public class HomeFragment extends Fragment {
             }
             //линейный лейаут нужен чтоб удобно закинуть туда текстовое поле
             LinearLayout recyclerContainer = new LinearLayout(root.getContext());
-            recyclerContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(5,10,5,0);
+            recyclerContainer.setLayoutParams(layoutParams);
             recyclerContainer.setOrientation(LinearLayout.VERTICAL);
             recyclerContainer.setPadding(1, 20, 1, 1);
+            View straight=new View(getContext());
+            straight.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+            straight.setPadding(2,0,2,3);
+            straight.setBackgroundColor(Color.parseColor("#C0C0C0"));
             //Добавляем текстовое поле
             TextView text = new TextView(root.getContext());
             text.setTextSize(15);
-            text.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            LinearLayout.LayoutParams textPar=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            textPar.setMargins(5,1,0,2);
+            text.setLayoutParams(textPar);
             //берем текст из образца и подставляем название тега
-            text.setText(getResources().getString(R.string.recommendation_string) + tag);
-            //докидываем на view
+            text.setText(getResources().getString(R.string.recommendation_string) +" "+ tag);
 
             //Создаем recyclerview, будем закидывать его на view
             RecyclerView booksRecyclerView = new RecyclerView(root.getContext());
@@ -231,12 +259,43 @@ public class HomeFragment extends Fragment {
             });
             booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
             //добавляем наш контейнер на основной лейаут
-
+            recyclerContainer.addView(straight);
             recyclerContainer.addView(text);
             recyclerContainer.addView(booksRecyclerView);
             layoutL.add(recyclerContainer);
         }
         callback.onComplete(layoutL);
+
+    }
+    public void getNews(){
+        Retrofit retrofit= new Retrofit.Builder()
+                                    .baseUrl(BASE_URL)
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+        NewsApiService apiService=retrofit.create(NewsApiService.class);
+        Call<NewsApiAnswer> call=apiService.getNews(API_KEY,"technology");
+        call.enqueue(new retrofit2.Callback<NewsApiAnswer>() {
+            @Override
+            public void onResponse(Call<NewsApiAnswer> call, Response<NewsApiAnswer> response) {
+                assert response.body() != null;
+                ArrayList<News> apiAnswers = new ArrayList<>(response.body().getSources());
+                NewsRecyclerViewAdapter recyclerViewAdapter=new NewsRecyclerViewAdapter(apiAnswers,getContext());
+                recyclerViewAdapter.setClickListener(new NewsRecyclerViewAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(String url) {
+                        Intent intent=new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(url));
+                        startActivity(intent);
+                    }
+                });
+                recyclerViewNews.setAdapter(recyclerViewAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<NewsApiAnswer> call, Throwable t) {
+
+            }
+        });
 
     }
 

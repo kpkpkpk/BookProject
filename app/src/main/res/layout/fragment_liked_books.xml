@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/fragment_liked_books_text"
         android:visibility="gone"
-        android:text="Здесь будут находиться понравившиеся произведения"
+        android:text="@string/liked_books_fragment_no_liked"
         android:layout_centerInParent="true"/>
 </RelativeLayout>

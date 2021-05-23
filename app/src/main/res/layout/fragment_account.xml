@@ -49,7 +49,7 @@
         android:focusable="true"
         android:layout_margin="4dp"
         android:foreground="?android:attr/selectableItemBackground"
-        android:text="Понравившиеся произведения"
+        android:text="@string/fragment_account_liked_button_text"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
         android:background="#C0C0C0"
         android:layout_margin="4dp"
         android:id="@+id/acc_v2"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_height="1dp"/>
     <Button
         android:id="@+id/exit_account_button"
@@ -68,9 +68,10 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_light"
         android:shadowColor="@android:color/darker_gray"
-        android:backgroundTint="#DFDEDE"
+        android:backgroundTint="@android:color/darker_gray"
         android:layout_alignParentBottom="true"
-        android:text="Выход"/>
+        android:textAllCaps="false"
+        android:text="@string/fragment_account_exit_button_text"/>
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -72,13 +72,14 @@ public class BookFragment extends Fragment {
 
         //кликер для кнопки
         likeButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 if(!isChanged) {
                     likeButton.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.baseline_favorite_black_24));
                     isChanged=true;
                     book.setRating(book.getRating()+1);
-                    rating.setText(Integer.toString(book.getRating()));
+                    rating.setText(getResources().getString(R.string.book_fragment_liked)+" "+Integer.toString(book.getRating()));
                     Intent i=new Intent(root.getContext(),ImportRatingService.class);
                     i.putExtra("Like",true);
                     i.putExtra("book_id",id);
@@ -92,7 +93,7 @@ public class BookFragment extends Fragment {
                     likeButton.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.baseline_favorite_border_black_24));
                     isChanged=false;
                     book.setRating(book.getRating()-1);
-                    rating.setText(Integer.toString(book.getRating()));
+                    rating.setText(getResources().getString(R.string.book_fragment_liked)+" "+Integer.toString(book.getRating()));
                     Intent i=new Intent(root.getContext(),ImportRatingService.class);
                     i.putExtra("Like",false);
                     i.putExtra("book_id",id);
@@ -135,19 +136,20 @@ public class BookFragment extends Fragment {
                     public void onStart() {
 
                     }
-                    //после завершения загрузки убираем прогресс бар и закидываем ресайклеры
+
                     @Override
                     public void onComplete(Book receivedBook) {
                         try {
                         BookFragment.this.getActivity().runOnUiThread(new Runnable() {
+                            @SuppressLint("SetTextI18n")
                             @Override
                             public void run() {
                                 Glide.with(root.getContext()).load(receivedBook.getImage_url()).into(bookImage);
                                 bookTitle.setText(receivedBook.getBook_name());
-                                authorName.setText(receivedBook.getAuthorName());
-                                rating.setText(Integer.toString(receivedBook.getRating()));
+                                authorName.setText(getResources().getString(R.string.book_fragment_author)+" "+receivedBook.getAuthorName());
+                                rating.setText(getResources().getString(R.string.book_fragment_liked)+" "+Integer.toString(receivedBook.getRating()));
                                 description.setText(receivedBook.getDescription());
-                                genre.setText(receivedBook.getTag());
+                                genre.setText(getResources().getString(R.string.book_fragment_genre)+" "+receivedBook.getTag());
                                 if (isChanged) {
                                     likeButton.setImageDrawable(ContextCompat.getDrawable(root.getContext(), R.drawable.baseline_favorite_black_24));
                                 } else {

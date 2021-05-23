@@ -18,7 +18,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    android:text="Изменить фото аккаунта"
+    android:text="@string/editprofile_fragment_change_photo_button"
     android:textColor="#2196F3"
     android:clickable="true"
     android:id="@+id/fragment_editprofile_change_photo_text_button"
@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Никнейм"/>
+            android:text="@string/registration_hint_nickname"/>
         <EditText
             android:id="@+id/fragment_editprofile_nickname_edittext"
             android:layout_marginTop="5dp"

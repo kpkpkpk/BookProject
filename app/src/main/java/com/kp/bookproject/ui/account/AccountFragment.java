@@ -1,5 +1,6 @@
 package com.kp.bookproject.ui.account;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -166,10 +167,11 @@ public class AccountFragment extends Fragment {
                     public void onComplete() {
                         try {
                         getActivity().runOnUiThread(new Runnable() {
+                            @SuppressLint("SetTextI18n")
                             @Override
                             public void run() {
                                 Glide.with(root.getContext()).load(userAccount.getImageUrl()).into(userImage);
-                                greetingUserTextView.setText("Привет, " + userAccount.getUsername());
+                                greetingUserTextView.setText(getResources().getString(R.string.hello_account_fragment) + userAccount.getUsername());
                                 progressBar.setVisibility(View.GONE);
                                 editProfileCardView.setVisibility(View.VISIBLE);
                                 greetingUserTextView.setVisibility(View.VISIBLE);
@@ -198,13 +200,14 @@ public class AccountFragment extends Fragment {
         userAccount=databaseController.getUserAccount();
         callback.onComplete();
     }
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
             if (requestCode==REQUEST_CODE_FOR_ACCOUNT){
-               greetingUserTextView.setText("Привет, "+data.getStringExtra("newNick"));
+               greetingUserTextView.setText(getResources().getString(R.string.hello_account_fragment)+data.getStringExtra("newNick"));
                String filepath=data.getStringExtra("newFilepath");
                if(filepath.length()!=0) {
                    File file = new File(filepath);

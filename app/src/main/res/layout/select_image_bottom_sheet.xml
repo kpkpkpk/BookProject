@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
-            android:text="Выбрать фото"/>
+            android:text="@string/select_image_bottom_text_photo"/>
     </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
