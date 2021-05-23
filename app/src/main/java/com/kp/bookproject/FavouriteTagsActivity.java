@@ -1,6 +1,7 @@
 package com.kp.bookproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,10 +12,9 @@ import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.kp.bookproject.PostgresControllers.DatabaseController;
+import com.kp.bookproject.Controller.DatabaseController;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static com.kp.bookproject.Constants.SELECTED_TAGS_COUNT;
@@ -31,6 +31,7 @@ public class FavouriteTagsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode());
         setContentView(R.layout.activity_favourite_tags);
         chipGroup=findViewById(R.id.chip_tags_group);
         databaseController=new DatabaseController();
@@ -50,26 +51,14 @@ public class FavouriteTagsActivity extends AppCompatActivity {
                 }
                 //добавляем данные в БД
                 databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags);
-                addTagsToSharedPreferences();
+
                 startActivity(new Intent(FavouriteTagsActivity.this,MainActivity.class));
                 finish();
             }
         });
     }
-    private void addTagsToSharedPreferences(){
 
-        SharedPreferences selectedTagsPreference=getSharedPreferences(SHARED_PREFERENCES_FAVORITE_TAGS_NAME,MODE_PRIVATE);
-        if(!selectedTagsPreference.contains("isExist")){
-            SharedPreferences.Editor editor = selectedTagsPreference.edit();
-//        ArrayList<Integer> arrayList=databaseController.getTagsId();
-            editor.putInt(SELECTED_TAGS_COUNT, selectedTags.size());
-            for (int i = 0; i < selectedTags.size(); i++) {
-                editor.putString(SELECTED_TAGS_KEY + i, selectedTags.get(i).toString());
-            }
-            editor.apply();
-        }
 
-    }
 
 
 }

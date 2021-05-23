@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
-import com.kp.bookproject.PostgresControllers.DatabaseController;
+import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
@@ -118,15 +119,24 @@ public class HomeFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void createBooksListView(Callback callback) {
         callback.onStart();
-        DatabaseController controller=new DatabaseController(false);
+        DatabaseController controller=new DatabaseController();
             ArrayList<LinearLayout> layoutL=new ArrayList<>();
-        SharedPreferences selectedTagsPreference = getActivity().getSharedPreferences(SHARED_PREFERENCES_FAVORITE_TAGS_NAME, MODE_PRIVATE);
-//        Создаем необходимое к-во RecyclerView для отображения первых 10 книг сортированных по рейтингу
-        for (int i = 0; i < selectedTagsPreference.getInt(SELECTED_TAGS_COUNT, 0); i++) {
-//            получаем название тега с SharedPreference
+            ArrayList<Integer> arrayList=controller.getFavoriteTags();
 
-            String tag = selectedTagsPreference.getString(SELECTED_TAGS_KEY + i, "null");
-            Log.d("tagos",tag);
+//        Создаем необходимое к-во RecyclerView для отображения первых 10 книг сортированных по рейтингу
+        for (Integer i:arrayList) {
+            StringBuilder tag=new StringBuilder();
+//            получаем название тега с SharedPreference
+            Thread t=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                   tag.append(controller.getTag(i));
+                }
+            });
+           t.start();
+           while (t.isAlive()){
+
+           }
             //линейный лейаут нужен чтоб удобно закинуть туда текстовое поле
             LinearLayout recyclerContainer = new LinearLayout(root.getContext());
             recyclerContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -151,14 +161,14 @@ public class HomeFragment extends Fragment {
             LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.HORIZONTAL, false);
             booksRecyclerView.setLayoutManager(horizontalLayoutManager);
             booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), LinearLayoutManager.HORIZONTAL));
-            Log.d("checkn",tag);
+            Log.d("checkn",tag.toString());
 
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
 
 
-                    books=controller.getTenBooks(tag);
+                    books=controller.getTenBooks(tag.toString());
                 }
             });
             thread.start();

@@ -2,6 +2,8 @@ package com.kp.bookproject;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -12,6 +14,8 @@ import com.kp.bookproject.ui.search.SearchFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,13 +30,16 @@ import static com.kp.bookproject.Constants.FRAGMENT_SEARCH_TAG;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView navView;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navView = findViewById(R.id.nav_view);
-
+        toolbar=findViewById(R.id.tool_bar);
+        toolbar.setTitle("Главная");
+        setSupportActionBar(toolbar);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode());
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -40,16 +47,17 @@ public class MainActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
                 switch (itemId) {
                     case R.id.navigation_home:
-
+                        toolbar.setTitle("Главная");
                         changeFragment(FRAGMENT_HOME_TAG);
 
                         return true;
                     case R.id.navigation_search:
-
+                        toolbar.setTitle("Поиск");
                         changeFragment(FRAGMENT_SEARCH_TAG);
 
                         return true;
                     case R.id.navigation_account:
+                        toolbar.setTitle("Профиль");
                         changeFragment(FRAGMENT_ACCOUNT_TAG);
 
                         return true;
@@ -145,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            Toast.makeText(this, ""+currentShownFragment.getTag(), Toast.LENGTH_SHORT).show();
             switch (currentShownFragment.getTag()) {
                 case FRAGMENT_HOME_TAG:
                     navView.setSelectedItemId(R.id.navigation_home);
@@ -158,6 +165,21 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                onBackPressed();
+
+                break;
+//            case R.id.check_mark:
+//                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//                Toast.makeText(this, "accepted", Toast.LENGTH_SHORT).show();
+//                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

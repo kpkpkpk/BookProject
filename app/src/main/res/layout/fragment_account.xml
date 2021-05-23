@@ -12,14 +12,15 @@
     android:clickable="true"
     app:cardElevation="2dp"
     app:cardCornerRadius="6dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_margin="4dp"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:focusable="true">
 <com.google.android.material.imageview.ShapeableImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@mipmap/ic_launcher_round"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:scaleType="centerCrop"
     android:id="@+id/fragment_account_user_image"
     android:layout_gravity="start|center"
     app:shapeAppearanceOverlay="@style/roundedImageViewRounded"/>
@@ -33,14 +34,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|end"
-        android:src="@android:drawable/ic_media_play"/>
+        android:src="@drawable/baseline_navigate_next_24"/>
 </androidx.cardview.widget.CardView>
     <View
         android:layout_width="match_parent"
         android:layout_below="@id/cardView"
         android:background="#C0C0C0"
         android:layout_margin="4dp"
-        android:id="@+id/v1"
+        android:id="@+id/acc_v1"
         android:layout_height="1dp"/>
     <TextView
         android:id="@+id/account_liked_books_button"
@@ -52,13 +53,13 @@
         android:textSize="12sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/v1" />
+        android:layout_below="@id/acc_v1" />
     <View
         android:layout_width="match_parent"
         android:layout_below="@id/account_liked_books_button"
         android:background="#C0C0C0"
         android:layout_margin="4dp"
-        android:id="@+id/v2"
+        android:id="@+id/acc_v2"
         android:layout_marginRight="10dp"
         android:layout_height="1dp"/>
     <Button
@@ -70,4 +71,10 @@
         android:backgroundTint="#DFDEDE"
         android:layout_alignParentBottom="true"
         android:text="Выход"/>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/fragment_account_progressbar"/>
 </RelativeLayout>

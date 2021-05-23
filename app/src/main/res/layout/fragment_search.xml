@@ -38,14 +38,4 @@
 
 </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-
-        android:id="@+id/extended_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|center"
-        android:contentDescription="Filter"
-        android:text="Фильтр"
-        app:icon="@android:drawable/ic_menu_search"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

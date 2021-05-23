@@ -21,7 +21,7 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         >
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -29,7 +29,7 @@
             android:id="@+id/loginField"
             android:inputType="textEmailAddress"
             android:hint="Email"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"

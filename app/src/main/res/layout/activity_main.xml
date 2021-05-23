@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_alignParentTop="true"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent" />
     <FrameLayout
+        android:layout_below="@id/tool_bar"
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"

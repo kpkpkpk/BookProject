@@ -10,5 +10,6 @@ public final class Constants {
     public static final String FRAGMENT_ACCOUNT_TAG = "fragment_account";
     public static final String SELECTED_TAG_FRAGMENT="selected_tag_fragment";
     public static final String SELECTED_BOOK="selected_book_fragment";
+    public static final int PICK_PHOTO_FROM_GALLERY=10101;
     public static final int JOB_ID=888;
 }

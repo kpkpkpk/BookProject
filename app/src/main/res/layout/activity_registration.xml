@@ -21,14 +21,14 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         >
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:id="@+id/userActField"
             android:hint="Username"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -36,7 +36,7 @@
             android:id="@+id/loginActField"
             android:inputType="textEmailAddress"
             android:hint="Email"/>
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
