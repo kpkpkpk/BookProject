@@ -13,6 +13,7 @@ public final class Constants {
     public static final String EDIT_PROFILE_TAG="edit_profile_tag";
     public static final String SHOW_LIKED_TAG="edit_profile_tag";
     public static final int PICK_PHOTO_FROM_GALLERY=10101;
+    public static final int REQUEST_CODE_FOR_ACCOUNT=333;
     public static final int JOB_ID=888;
     public static final int JOB_ID_CHANGES=999;
 }

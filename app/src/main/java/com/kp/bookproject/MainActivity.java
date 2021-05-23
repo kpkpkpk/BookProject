@@ -32,6 +32,8 @@ import static com.kp.bookproject.Constants.FRAGMENT_ACCOUNT_TAG;
 import static com.kp.bookproject.Constants.FRAGMENT_HOME_TAG;
 
 import static com.kp.bookproject.Constants.FRAGMENT_SEARCH_TAG;
+import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
+import static com.kp.bookproject.Constants.SHOW_LIKED_TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         toolbar.setTitle("Главная");
                         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         changeFragment(FRAGMENT_HOME_TAG);
-
+                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         return true;
                     case R.id.navigation_search:
                         toolbar.setTitle("Поиск");
@@ -68,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                         toolbar.setTitle("Профиль");
                         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         changeFragment(FRAGMENT_ACCOUNT_TAG);
-
                         return true;
                 }
 
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (neededToShowFragmentTag) {
                     case "fragment_home":
                         neededToShowFragment = new HomeFragment();
+
                         break;
                     case "fragment_search":
                         neededToShowFragment = new SearchFragment();
@@ -169,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     }
                     navView.setSelectedItemId(R.id.navigation_home);
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     break;
                 case FRAGMENT_SEARCH_TAG:
                     if ((getSupportActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP) != 0) {

@@ -133,7 +133,13 @@ public class EditProfileFragment extends Fragment {
                         }
                     }
                     ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                    getActivity().getSupportFragmentManager().popBackStackImmediate();
+                    Intent intent = new Intent(getContext(), EditProfileFragment.class);
+                    intent.putExtra("newNick", nickname.getText().toString());
+                    intent.putExtra("newFilepath", filepath.toString());
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
+                    getActivity().getSupportFragmentManager().popBackStack();
+
+
                 break;
         }
          return super.onOptionsItemSelected(item);

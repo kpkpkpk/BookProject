@@ -1,6 +1,7 @@
 package com.kp.bookproject.ui.account;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.util.Log;
@@ -32,11 +33,14 @@ import com.kp.bookproject.LoginActivity;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.search.SelectedTagFragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.kp.bookproject.Constants.EDIT_PROFILE_TAG;
 import static com.kp.bookproject.Constants.FRAGMENT_ACCOUNT_TAG;
+import static com.kp.bookproject.Constants.REQUEST_CODE_FOR_ACCOUNT;
 import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 import static com.kp.bookproject.Constants.SHOW_LIKED_TAG;
 
@@ -94,6 +98,7 @@ public class AccountFragment extends Fragment {
                 bundle.putString("username",userAccount.getUsername());
                 bundle.putString("imageUrl",userAccount.getImageUrl());
                 fragment.setArguments(bundle);
+                fragment.setTargetFragment(AccountFragment.this, REQUEST_CODE_FOR_ACCOUNT);
                 fragmentTransaction.add(R.id.nav_host_fragment,fragment,EDIT_PROFILE_TAG);
                 fragmentTransaction.addToBackStack("PREVIOUS");
                 fragmentTransaction.hide(currentShownFragment);
@@ -192,5 +197,20 @@ public class AccountFragment extends Fragment {
         DatabaseController databaseController = new DatabaseController(true);
         userAccount=databaseController.getUserAccount();
         callback.onComplete();
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode==REQUEST_CODE_FOR_ACCOUNT){
+               greetingUserTextView.setText("Привет, "+data.getStringExtra("newNick"));
+               String filepath=data.getStringExtra("newFilepath");
+               if(filepath.length()!=0) {
+                   File file = new File(filepath);
+                   userImage.setImageURI(Uri.fromFile(file));
+               }
+            }
+        }
     }
 }

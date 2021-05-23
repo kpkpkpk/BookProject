@@ -38,7 +38,7 @@ import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 
 public class SelectedTagFragment extends Fragment {
     private View root;
-//    private TextView selectedTagText;
+    private TextView selectedTagText;
     private ChipGroup chipGroupForTags;
     private RecyclerView booksRecyclerView;
     private ArrayList<Book> books;
@@ -49,10 +49,11 @@ public class SelectedTagFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
       root=inflater.inflate(R.layout.fragment_selected_tags,container,false);
-//        selectedTagText=root.findViewById(R.id.selected_tag_text);
+        selectedTagText=root.findViewById(R.id.selected_tag_text);
+        selectedTagText.setText(getArguments().getString("tag"));
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        Toolbar toolbar=getActivity().findViewById(R.id.tool_bar);
-        toolbar.setTitle(getArguments().getString("tag"));
+        toolbar.setTitle("");
         chipGroupForTags=root.findViewById(R.id.chip_group_for_tags);
         booksRecyclerView=root.findViewById(R.id.recycler_view_books_with_selected_tag);
         progressBar=root.findViewById(R.id.fragment_selected_tags_progressbar);
@@ -88,7 +89,7 @@ public class SelectedTagFragment extends Fragment {
                                 public void run() {
                                     prepareChip();
                                     progressBar.setVisibility(View.GONE);
-//                                    selectedTagText.setVisibility(View.VISIBLE);
+                                    selectedTagText.setVisibility(View.VISIBLE);
                                     booksRecyclerView.setVisibility(View.VISIBLE);
                                     chipGroupForTags.setVisibility(View.VISIBLE);
                                 }

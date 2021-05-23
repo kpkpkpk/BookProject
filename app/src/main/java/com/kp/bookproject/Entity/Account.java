@@ -9,6 +9,14 @@ public class Account {
         this.imageUrl = imageUrl;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public String getUsername() {
         return username;
     }
