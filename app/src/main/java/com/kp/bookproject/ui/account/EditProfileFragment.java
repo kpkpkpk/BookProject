@@ -137,6 +137,7 @@ public class EditProfileFragment extends Fragment {
                     intent.putExtra("newNick", nickname.getText().toString());
                     intent.putExtra("newFilepath", filepath.toString());
                     getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
+                    toolbar.setTitle("Профиль");
                     getActivity().getSupportFragmentManager().popBackStack();
 
 
