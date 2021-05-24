@@ -39,6 +39,7 @@
     <string name="book_fragment_description">Описание</string>
     <string name="editprofile_fragment_change_photo_button">Изменить фото профиля</string>
     <string name="home_fragment_last_news">Последние новости</string>
+    <string name="is_permission_denied">Без хранилища пользоваться сменой невозможно, разрешите в настройках </string>
     <string name="home_fragment_for_you">Для тебя</string>
     <string name="liked_books_fragment_no_liked">Здесь будут находиться понравившиеся произведения</string>
     <string name="search_fragment_all_genres">Все жанры</string>

@@ -1,5 +1,6 @@
 package com.kp.bookproject.ui.account;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -7,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.FileUtils;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +34,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.kp.bookproject.Entity.Account;
+import com.kp.bookproject.MainActivity;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.bookpage.ImportRatingService;
 import com.kp.bookproject.ui.home.HomeFragment;
@@ -92,7 +100,25 @@ public class EditProfileFragment extends Fragment {
         useGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CropImage.activity().start(getContext(),fragment);
+                Dexter.withContext(root.getContext())
+                        .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .withListener(new MultiplePermissionsListener() {
+                            @Override
+                            public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                                if(!multiplePermissionsReport.areAllPermissionsGranted()){
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.is_permission_denied), Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(Settings.ACTION_APPLICATION_SETTINGS));
+                                }else{
+                                    CropImage.activity().start(getContext(),fragment);
+                                }
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                                permissionToken.continuePermissionRequest();
+                            }
+                        })
+                        .check();
             }
         });
     }
@@ -137,6 +163,7 @@ public class EditProfileFragment extends Fragment {
                     intent.putExtra("newNick", nickname.getText().toString());
                     intent.putExtra("newFilepath", filepath.toString());
                     getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
+                    toolbar.setTitle("Профиль");
                     getActivity().getSupportFragmentManager().popBackStack();
 
 
@@ -155,7 +182,6 @@ public class EditProfileFragment extends Fragment {
                 File file=new File(resultUri.getPath());
 
                 filepath.append(file.getAbsolutePath());
-                Toast.makeText(getActivity(), "res  "+  file.getAbsolutePath(), Toast.LENGTH_LONG).show();
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }
