@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.kp.bookproject.Callback;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.Entity.Account;
 import com.kp.bookproject.Entity.Book;
+import com.kp.bookproject.FavouriteTagsActivity;
 import com.kp.bookproject.LoginActivity;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.search.SelectedTagFragment;
@@ -50,7 +52,8 @@ public class AccountFragment extends Fragment {
     private CardView editProfileCardView;
     private ShapeableImageView userImage;
     private  View root;
-    private TextView likedBooksButton,greetingUserTextView,exitButton;
+    private TextView likedBooksButton,greetingUserTextView;
+    private Button exitButton,changeTagsButton;
     private ProgressBar progressBar;
     private Account userAccount;
     private View v1,v2;
@@ -66,6 +69,13 @@ public class AccountFragment extends Fragment {
         likedBooksButton=root.findViewById(R.id.account_liked_books_button);
         exitButton=root.findViewById(R.id.exit_account_button);
         progressBar=root.findViewById(R.id.fragment_account_progressbar);
+        changeTagsButton=root.findViewById(R.id.edit_tags_account_button);
+        changeTagsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), FavouriteTagsActivity.class));
+            }
+        });
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

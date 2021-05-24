@@ -62,35 +62,6 @@ public class DatabaseController {
         }
     }
 
-    //change to arraylist and query
-    public void getAuthors() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    //connection забирает слишком много, его кидать в отдельный поток
-                    connection = databaseConnection.returnConnection();
-                    statement = connection.createStatement();
-                    String sql = "SELECT * FROM Authors";
-                    resultSet = statement.executeQuery(sql);
-                    while (resultSet.next()) {
-                        Log.d("DB", resultSet.getInt(1) + " " + resultSet.getString(2));
-
-                    }
-                } catch (Exception err) {
-                    err.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (Exception err) {
-            Log.d("DatabaseController", " getAuthors()Error:" + err.getMessage());
-        }
-    }
-
     ArrayList<Integer> tagsId;
 
     public void setFavouriteTagsIntoAccountFirebase(ArrayList<String> selectedTags) {

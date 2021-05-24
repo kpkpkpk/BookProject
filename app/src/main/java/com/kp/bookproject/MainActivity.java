@@ -80,19 +80,19 @@ public class MainActivity extends AppCompatActivity {
                 int itemId = item.getItemId();
                 switch (itemId) {
                     case R.id.navigation_home:
-                        toolbar.setTitle("Главная");
+                        toolbar.setTitle(getResources().getString(R.string.title_home));
                         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         changeFragment(FRAGMENT_HOME_TAG);
                         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         return true;
                     case R.id.navigation_search:
-                        toolbar.setTitle("Поиск");
+                        toolbar.setTitle(getResources().getString(R.string.title_search));
                         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         changeFragment(FRAGMENT_SEARCH_TAG);
 
                         return true;
                     case R.id.navigation_account:
-                        toolbar.setTitle("Профиль");
+                        toolbar.setTitle(getResources().getString(R.string.title_acc));
                         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                         changeFragment(FRAGMENT_ACCOUNT_TAG);
                         return true;
@@ -102,14 +102,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         navView.setSelectedItemId(R.id.navigation_home);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-//                .build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-//        NavigationUI.setupWithNavController(navView, navController);
+
     }
 
     private void changeFragment(String neededToShowFragmentTag) {
@@ -141,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (neededToShowFragmentTag) {
                     case "fragment_home":
                         neededToShowFragment = new HomeFragment();
-
                         break;
                     case "fragment_search":
                         neededToShowFragment = new SearchFragment();
@@ -215,15 +207,12 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //при использоавнии if не дает вывзывать onBackPressed
         switch (item.getItemId()){
             case android.R.id.home:
                 onBackPressed();
 
                 break;
-//            case R.id.check_mark:
-//                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//                Toast.makeText(this, "accepted", Toast.LENGTH_SHORT).show();
-//                break;
         }
         return super.onOptionsItemSelected(item);
     }
