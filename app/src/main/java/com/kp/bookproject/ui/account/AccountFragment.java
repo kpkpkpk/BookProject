@@ -150,6 +150,7 @@ public class AccountFragment extends Fragment {
         editProfileCardView.setVisibility(View.GONE);
         userImage.setVisibility(View.GONE);
        v1.setVisibility(View.GONE);
+        changeTagsButton.setVisibility(View.GONE);
        v2.setVisibility(View.GONE);
         greetingUserTextView.setVisibility(View.GONE);
         exitButton.setVisibility(View.GONE);
@@ -187,6 +188,7 @@ public class AccountFragment extends Fragment {
                                 greetingUserTextView.setVisibility(View.VISIBLE);
                                 userImage.setVisibility(View.VISIBLE);
                                 exitButton.setVisibility(View.VISIBLE);
+                                changeTagsButton.setVisibility(View.VISIBLE);
                                 v1.setVisibility(View.VISIBLE);
                                 likedBooksButton.setVisibility(View.VISIBLE);
                                 v2.setVisibility(View.VISIBLE);

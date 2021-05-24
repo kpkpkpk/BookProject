@@ -56,7 +56,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginRight="50dp"
             android:id="@+id/passwordActField"
-            android:hint="@string/activity_login_pass_hint"/>
+            android:hint="@string/activity_registration_pass_hint"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

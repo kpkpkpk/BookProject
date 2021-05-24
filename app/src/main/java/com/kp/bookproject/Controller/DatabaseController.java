@@ -271,7 +271,7 @@ private ArrayList<Integer> favoriteTags;
 
             StringBuilder sql = new StringBuilder("select books.id,book_name,authors.author_name,book_image from books,authors where (select id from tags where tags.nametag like '%");
             //добавляем название тега
-            sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating,random() asc limit 10");
+            sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating,random() desc limit 10");
             Log.d("setF", sql.toString() + "");
             resultSet = statement.executeQuery(sql.toString());
             while (resultSet.next()) {

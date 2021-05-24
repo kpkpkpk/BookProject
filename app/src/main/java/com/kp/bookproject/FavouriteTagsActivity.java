@@ -47,38 +47,25 @@ public class FavouriteTagsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<Integer> ids = chipGroup.getCheckedChipIds();
+                if (ids.isEmpty()) {
+                    Toast.makeText(FavouriteTagsActivity.this, getResources().getString(R.string.select_tags_hint), Toast.LENGTH_SHORT).show();
+                } else {
+                    for (Integer id : ids) {
+                        Chip chip = chipGroup.findViewById(id);
+                        //добавляем текстовое значение чипа, чтобы найти его айди в ДБ
+                        selectedTags.add(chip.getText().toString());
 
-                for (Integer id:ids){
-                    Chip chip = chipGroup.findViewById(id);
-                    //добавляем текстовое значение чипа, чтобы найти его айди в ДБ
-                    selectedTags.add(chip.getText().toString());
-
+                    }
+                    //добавляем данные в БД
+                    databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags);
+                    startActivity(new Intent(FavouriteTagsActivity.this, MainActivity.class));
+                    finish();
                 }
-                //добавляем данные в БД
-                databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags);
-                startActivity(new Intent(FavouriteTagsActivity.this,MainActivity.class));
-                finish();
             }
+
         });
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        user.delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseAuth.getInstance().signOut();
-                            Log.d("Tag", "User account deleted.");
-                            startActivity(new Intent(FavouriteTagsActivity.this,LoginActivity.class));
-                            finish();
-                        }
-                    }
-                });
 
-    }
 
 
 
