@@ -47,12 +47,12 @@ public class FavouriteTagsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<Integer> ids = chipGroup.getCheckedChipIds();
-                Toast.makeText(FavouriteTagsActivity.this, ""+ids.toString(), Toast.LENGTH_SHORT).show();
+
                 for (Integer id:ids){
                     Chip chip = chipGroup.findViewById(id);
                     //добавляем текстовое значение чипа, чтобы найти его айди в ДБ
                     selectedTags.add(chip.getText().toString());
-                    Toast.makeText(FavouriteTagsActivity.this,chip.getText().toString(),Toast.LENGTH_LONG).show();
+
                 }
                 //добавляем данные в БД
                 databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags);

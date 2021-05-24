@@ -138,6 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/select_tags_next"
         android:textSize="20sp"
         android:id="@+id/clickable_text_to_next_activity"
