@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BookProject</string>
+    <string name="app_name">Литературный помощник</string>
     <string name="main_tag_1">Афоризмы</string>
     <string name="main_tag_2">Басни</string>
     <string name="main_tag_3">Детективы</string>
