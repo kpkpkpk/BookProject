@@ -171,7 +171,7 @@ public class AccountFragment extends Fragment {
                             @Override
                             public void run() {
                                 Glide.with(root.getContext()).load(userAccount.getImageUrl()).into(userImage);
-                                greetingUserTextView.setText(getResources().getString(R.string.hello_account_fragment) + userAccount.getUsername());
+                                greetingUserTextView.setText(getResources().getString(R.string.hello_account_fragment) +" "+ userAccount.getUsername());
                                 progressBar.setVisibility(View.GONE);
                                 editProfileCardView.setVisibility(View.VISIBLE);
                                 greetingUserTextView.setVisibility(View.VISIBLE);
@@ -207,7 +207,7 @@ public class AccountFragment extends Fragment {
 
         if (resultCode == RESULT_OK) {
             if (requestCode==REQUEST_CODE_FOR_ACCOUNT){
-               greetingUserTextView.setText(getResources().getString(R.string.hello_account_fragment)+data.getStringExtra("newNick"));
+               greetingUserTextView.setText(getResources().getString(R.string.hello_account_fragment)+" "+data.getStringExtra("newNick"));
                String filepath=data.getStringExtra("newFilepath");
                if(filepath.length()!=0) {
                    File file = new File(filepath);
