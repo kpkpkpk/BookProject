@@ -16,7 +16,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.OnDialogButtonClickListener;
+import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
@@ -52,22 +55,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MultiplePermissionsListener dialogPermissionListener =
-                DialogOnAnyDeniedMultiplePermissionsListener.Builder
-                        .withContext(this)
-                        .withTitle("Storage")
-                        .withMessage("Разрешите использовать хранилище для работы приложения")
-                        .withButtonText(android.R.string.ok, new OnDialogButtonClickListener() {
-                            @Override
-                            public void onClick() {
-                                startActivity(new Intent(Settings.ACTION_APPLICATION_SETTINGS));
-                            }
-                        })
-                        .build();
-        Dexter.withContext(this)
-                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(dialogPermissionListener)
-                .check();
         navView = findViewById(R.id.nav_view);
         toolbar=findViewById(R.id.tool_bar);
         toolbar.setTitle("Главная");
