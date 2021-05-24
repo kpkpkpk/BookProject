@@ -21,7 +21,7 @@
     <string name="recommendation_string">Возможно вам понравятся отсортированные по рейтингу книги в жанре  </string>
     <string name="to_name">Персональные подборки для тебя, </string>
     <string name="hello_account_fragment">Привет, </string>
-    <string name="select_tags_hint">Выберите не менее 3 тегов</string>
+    <string name="select_tags_hint">Выберите не менее 1 тега</string>
     <string name="select_tags_next">Далее</string>
     <string name="select_tags_title">Выбор тегов</string>
     <string name="activity_login_title">Войти</string>
