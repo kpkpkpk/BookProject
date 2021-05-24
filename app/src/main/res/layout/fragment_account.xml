@@ -72,6 +72,16 @@
         android:layout_alignParentBottom="true"
         android:textAllCaps="false"
         android:text="@string/fragment_account_exit_button_text"/>
+    <Button
+        android:id="@+id/edit_tags_account_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:shadowColor="@android:color/darker_gray"
+        android:backgroundTint="@android:color/darker_gray"
+        android:layout_above="@id/exit_account_button"
+        android:textAllCaps="false"
+        android:text="@string/fragment_account_edit_tags_button_text"/>
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

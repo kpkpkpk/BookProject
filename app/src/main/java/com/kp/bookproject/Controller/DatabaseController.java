@@ -62,35 +62,6 @@ public class DatabaseController {
         }
     }
 
-    //change to arraylist and query
-    public void getAuthors() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    //connection забирает слишком много, его кидать в отдельный поток
-                    connection = databaseConnection.returnConnection();
-                    statement = connection.createStatement();
-                    String sql = "SELECT * FROM Authors";
-                    resultSet = statement.executeQuery(sql);
-                    while (resultSet.next()) {
-                        Log.d("DB", resultSet.getInt(1) + " " + resultSet.getString(2));
-
-                    }
-                } catch (Exception err) {
-                    err.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (Exception err) {
-            Log.d("DatabaseController", " getAuthors()Error:" + err.getMessage());
-        }
-    }
-
     ArrayList<Integer> tagsId;
 
     public void setFavouriteTagsIntoAccountFirebase(ArrayList<String> selectedTags) {
@@ -300,7 +271,7 @@ private ArrayList<Integer> favoriteTags;
 
             StringBuilder sql = new StringBuilder("select books.id,book_name,authors.author_name,book_image from books,authors where (select id from tags where tags.nametag like '%");
             //добавляем название тега
-            sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating,random() asc limit 10");
+            sql.append(tagName).append("%')=any(tags_id) and authors.id=author_id order by rating,random() desc limit 10");
             Log.d("setF", sql.toString() + "");
             resultSet = statement.executeQuery(sql.toString());
             while (resultSet.next()) {

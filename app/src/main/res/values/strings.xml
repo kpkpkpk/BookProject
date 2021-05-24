@@ -16,17 +16,18 @@
     <string name="main_tag_14">Эпос и фольклор</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Главная</string>
-    <string name="title_dashboard">Поиск</string>
-    <string name="title_notifications">Профиль</string>
+    <string name="title_search">Поиск</string>
+    <string name="title_acc">Профиль</string>
     <string name="recommendation_string">Возможно вам понравятся отсортированные по рейтингу книги в жанре  </string>
     <string name="to_name">Персональные подборки для тебя, </string>
     <string name="hello_account_fragment">Привет, </string>
-    <string name="select_tags_hint">Выберите не менее 1 тега</string>
+    <string name="select_tags_hint">Выберите не менее 1 жанра</string>
     <string name="select_tags_next">Далее</string>
-    <string name="select_tags_title">Выбор тегов</string>
+    <string name="select_tags_title">Выбор жанров</string>
     <string name="activity_login_title">Войти</string>
     <string name="activity_login_hint">Email</string>
     <string name="activity_login_pass_hint">Пароль</string>
+    <string name="activity_registration_pass_hint">Пароль(не менее 8 символов)</string>
     <string name="activity_registration_title_button">Зарегистрироваться</string>
     <string name="registration_title">Регистрация</string>
     <string name="registration_hint_nickname">Никнейм</string>
@@ -36,10 +37,11 @@
     <string name="book_fragment_liked">Оценили: </string>
     <string name="book_fragment_genre">Жанр: </string>
     <string name="book_fragment_description">Описание</string>
-    <string name="editprofile_fragment_change_photo_button">Изменить фото аккаунта</string>
+    <string name="editprofile_fragment_change_photo_button">Изменить фото профиля</string>
     <string name="home_fragment_last_news">Последние новости</string>
     <string name="home_fragment_for_you">Для тебя</string>
     <string name="liked_books_fragment_no_liked">Здесь будут находиться понравившиеся произведения</string>
     <string name="search_fragment_all_genres">Все жанры</string>
     <string name="select_image_bottom_text_photo">Выбрать фото</string>
+    <string name="fragment_account_edit_tags_button_text">Изменить выбранные жанры</string>
 </resources>
