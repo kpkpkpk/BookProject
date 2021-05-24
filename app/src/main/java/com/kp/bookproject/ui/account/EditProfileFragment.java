@@ -156,7 +156,6 @@ public class EditProfileFragment extends Fragment {
                 File file=new File(resultUri.getPath());
 
                 filepath.append(file.getAbsolutePath());
-                Toast.makeText(getActivity(), "res  "+  file.getAbsolutePath(), Toast.LENGTH_LONG).show();
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }
