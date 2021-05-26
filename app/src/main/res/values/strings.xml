@@ -37,6 +37,7 @@
     <string name="book_fragment_liked">Оценили: </string>
     <string name="book_fragment_genre">Жанр: </string>
     <string name="book_fragment_description">Описание</string>
+    <string name="registration_rejected">Регистрация была отменена, создайте новый аккаунт использовав те же данные</string>
     <string name="editprofile_fragment_change_photo_button">Изменить фото профиля</string>
     <string name="home_fragment_last_news">Последние новости</string>
     <string name="is_permission_denied">Без хранилища пользоваться сменой невозможно, разрешите в настройках </string>

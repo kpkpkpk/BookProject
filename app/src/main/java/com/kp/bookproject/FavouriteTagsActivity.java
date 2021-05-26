@@ -54,7 +54,6 @@ public class FavouriteTagsActivity extends AppCompatActivity {
                         Chip chip = chipGroup.findViewById(id);
                         //добавляем текстовое значение чипа, чтобы найти его айди в ДБ
                         selectedTags.add(chip.getText().toString());
-
                     }
                     //добавляем данные в БД
                     databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags);
@@ -65,8 +64,32 @@ public class FavouriteTagsActivity extends AppCompatActivity {
 
         });
     }
-
-
-
-
+    @Override
+    public void onBackPressed(){
+        if(getIntent().getExtras()!=null&&getIntent().getBooleanExtra("fromRegistration",false)){
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if(user!=null) {
+                user.delete()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d("delete acc", "User account deleted.");
+                                    FirebaseAuth.getInstance().signOut();
+                                    Toast.makeText(FavouriteTagsActivity.this,
+                                            getResources().getString(R.string.registration_rejected),
+                                            Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(FavouriteTagsActivity.this,RegistrationActivity.class));
+                                    finish();
+                                }
+                            }
+                        });
+            }
+        }else {
+            super.onBackPressed();
+        }
     }
+
+
+
+}
