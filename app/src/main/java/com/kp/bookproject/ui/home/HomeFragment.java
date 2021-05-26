@@ -40,11 +40,13 @@ import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.Entity.News;
 import com.kp.bookproject.Entity.NewsApiAnswer;
+import com.kp.bookproject.FavouriteTagsActivity;
 import com.kp.bookproject.LoginActivity;
 import com.kp.bookproject.MainActivity;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
+import com.kp.bookproject.ui.search.SelectedTagFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,12 +115,15 @@ public class HomeFragment extends Fragment {
                         //после завершения загрузки убираем прогресс бар и закидываем ресайклеры
                         @Override
                         public void onComplete(ArrayList<LinearLayout> linearLayouts) {
+
                             getActivity().runOnUiThread(new Runnable() {
 
                                 @Override
                                 public void run() {
+                                    secondL.removeAllViews();
                                     for (LinearLayout l :
                                             linearLayouts) {
+
                                         secondL.addView(l);
                                     }
 
@@ -158,114 +163,124 @@ public class HomeFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void createBooksListView(Callback callback) {
         callback.onStart();
-        DatabaseController controller=new DatabaseController();
-        ArrayList<LinearLayout> layoutL=new ArrayList<>();
-        ArrayList<Integer> arrayList=controller.getFavoriteTags();
-
+        DatabaseController controller = new DatabaseController();
+        ArrayList<LinearLayout> layoutL = new ArrayList<>();
+        ArrayList<Integer> arrayList = controller.getFavoriteTags();
+        if(arrayList.isEmpty()){
+          getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                  Toast.makeText(root.getContext(), getResources().getString(R.string.home_fragment_none_selected_tags_hint), Toast.LENGTH_SHORT).show();
+                  startActivity(new Intent(getActivity(), FavouriteTagsActivity.class));
+                  getActivity().finish();
+              }
+          });
+        }else {
 //        Создаем необходимое к-во RecyclerView для отображения первых 10 книг сортированных по рейтингу
-        for (Integer i:arrayList) {
-            StringBuilder tag=new StringBuilder();
+            for (Integer i : arrayList) {
+                StringBuilder tag = new StringBuilder();
 //            получаем название тега с SharedPreference
-            Thread t=new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    tag.append(controller.getTag(i));
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tag.append(controller.getTag(i));
+                    }
+                });
+                t.start();
+                while (t.isAlive()) {
+
                 }
-            });
-            t.start();
-            while (t.isAlive()){
 
-            }
-            //линейный лейаут нужен чтоб удобно закинуть туда текстовое поле
-            LinearLayout recyclerContainer = new LinearLayout(root.getContext());
-            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(5,10,5,0);
-            recyclerContainer.setLayoutParams(layoutParams);
-            recyclerContainer.setOrientation(LinearLayout.VERTICAL);
-            recyclerContainer.setPadding(1, 20, 1, 1);
-            View straight=new View(getContext());
-            straight.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-            straight.setPadding(2,0,2,3);
-            straight.setBackgroundColor(Color.parseColor("#C0C0C0"));
-            //Добавляем текстовое поле
-            TextView text = new TextView(root.getContext());
-            text.setTextSize(15);
-            LinearLayout.LayoutParams textPar=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            textPar.setMargins(5,1,0,2);
-            text.setLayoutParams(textPar);
-            //берем текст из образца и подставляем название тега
-            text.setText(getResources().getString(R.string.recommendation_string) +" "+ tag);
+                //линейный лейаут нужен чтоб удобно закинуть туда текстовое поле
+                LinearLayout recyclerContainer = new LinearLayout(root.getContext());
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(5, 10, 5, 0);
+                recyclerContainer.setLayoutParams(layoutParams);
+                recyclerContainer.setOrientation(LinearLayout.VERTICAL);
+                recyclerContainer.setPadding(1, 20, 1, 1);
+                View straight = new View(getContext());
+                straight.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+                straight.setPadding(2, 0, 2, 3);
+                straight.setBackgroundColor(Color.parseColor("#C0C0C0"));
+                //Добавляем текстовое поле
+                TextView text = new TextView(root.getContext());
+                text.setTextSize(15);
+                LinearLayout.LayoutParams textPar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                textPar.setMargins(5, 1, 0, 2);
+                text.setLayoutParams(textPar);
+                //берем текст из образца и подставляем название тега
+                text.setText(getResources().getString(R.string.recommendation_string) + " " + tag);
 
-            //Создаем recyclerview, будем закидывать его на view
-            RecyclerView booksRecyclerView = new RecyclerView(root.getContext());
+                //Создаем recyclerview, будем закидывать его на view
+                RecyclerView booksRecyclerView = new RecyclerView(root.getContext());
 
-            RecyclerView.LayoutParams booksRecyclerViewLayoutParams = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT
-                    , RecyclerView.LayoutParams.WRAP_CONTENT);
+                RecyclerView.LayoutParams booksRecyclerViewLayoutParams = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT
+                        , RecyclerView.LayoutParams.WRAP_CONTENT);
 
-            booksRecyclerView.setLayoutParams(booksRecyclerViewLayoutParams);
-            //LayoutManager отвечает за форму отображения элементов, поэтому сделаем обычный горизонтальный список
-            LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.HORIZONTAL, false);
-            booksRecyclerView.setLayoutManager(horizontalLayoutManager);
-            booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), LinearLayoutManager.HORIZONTAL));
-            Log.d("checkn",tag.toString());
+                booksRecyclerView.setLayoutParams(booksRecyclerViewLayoutParams);
+                //LayoutManager отвечает за форму отображения элементов, поэтому сделаем обычный горизонтальный список
+                LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                booksRecyclerView.setLayoutManager(horizontalLayoutManager);
+                booksRecyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), LinearLayoutManager.HORIZONTAL));
+                Log.d("checkn", tag.toString());
 
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
 
 
-                    books=controller.getTenBooks(tag.toString());
+                        books = controller.getTenBooks(tag.toString());
+                    }
+                });
+                thread.start();
+
+                //дожидаемся загрузки данных
+                while (thread.isAlive()) {
+
                 }
-            });
-            thread.start();
-
-            //дожидаемся загрузки данных
-            while(thread.isAlive()){
-
-            }
-            Log.d("check","books is null"+books.isEmpty());
+                Log.d("check", "books is null" + books.isEmpty());
 
 
-            recyclerViewBooksAdapter = new RecyclerViewBooksAdapter(books, root.getContext());
-            recyclerViewBooksAdapter.setClickListener(new RecyclerViewBooksAdapter.ItemClickListener() {
-                @Override
-                public void onItemClick(int id) {
+                recyclerViewBooksAdapter = new RecyclerViewBooksAdapter(books, root.getContext());
+                recyclerViewBooksAdapter.setClickListener(new RecyclerViewBooksAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int id) {
 //                    Intent i = new Intent(root.getContext(), BookFragment.class);
 //                    i.putExtra("id",id);
 //                    startActivity(i);
-                    FragmentManager fragmentManager=getParentFragmentManager();
-                    FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-                    List<Fragment> existingFragments = fragmentManager.getFragments();
-                    Log.d("isListExist",(existingFragments != null)+"");
-                    Fragment currentShownFragment = null;
-                    //проверяем, есть ли на экране отображаемые фрагменты
-                    if (existingFragments != null) {
-                        for (Fragment fragment : existingFragments) {
-                            if (fragment.isVisible()) {
-                                currentShownFragment = fragment;
-                                break;
+                        FragmentManager fragmentManager = getParentFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        List<Fragment> existingFragments = fragmentManager.getFragments();
+                        Log.d("isListExist", (existingFragments != null) + "");
+                        Fragment currentShownFragment = null;
+                        //проверяем, есть ли на экране отображаемые фрагменты
+                        if (existingFragments != null) {
+                            for (Fragment fragment : existingFragments) {
+                                if (fragment.isVisible()) {
+                                    currentShownFragment = fragment;
+                                    break;
+                                }
                             }
                         }
+                        BookFragment fragment = new BookFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", id);
+                        fragment.setArguments(bundle);
+                        fragmentTransaction.add(R.id.nav_host_fragment, fragment, SELECTED_BOOK);
+                        fragmentTransaction.addToBackStack("PREVIOUS");
+                        fragmentTransaction.hide(currentShownFragment);
+                        fragmentTransaction.show(fragment).commit();
                     }
-                    BookFragment fragment=new BookFragment();
-                    Bundle bundle=new Bundle();
-                    bundle.putInt("id",id);
-                    fragment.setArguments(bundle);
-                    fragmentTransaction.add(R.id.nav_host_fragment,fragment,SELECTED_BOOK);
-                    fragmentTransaction.addToBackStack("PREVIOUS");
-                    fragmentTransaction.hide(currentShownFragment);
-                    fragmentTransaction.show(fragment).commit();
-                }
-            });
-            booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
-            //добавляем наш контейнер на основной лейаут
-            recyclerContainer.addView(straight);
-            recyclerContainer.addView(text);
-            recyclerContainer.addView(booksRecyclerView);
-            layoutL.add(recyclerContainer);
+                });
+                booksRecyclerView.setAdapter(recyclerViewBooksAdapter);
+                //добавляем наш контейнер на основной лейаут
+                recyclerContainer.addView(straight);
+                recyclerContainer.addView(text);
+                recyclerContainer.addView(booksRecyclerView);
+                layoutL.add(recyclerContainer);
+                callback.onComplete(layoutL);
+            }
         }
-        callback.onComplete(layoutL);
-
     }
     public void getNews(){
         Retrofit retrofit= new Retrofit.Builder()

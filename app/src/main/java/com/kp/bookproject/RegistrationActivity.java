@@ -107,8 +107,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                             progressBar.setVisibility(View.GONE);
                                             layoutWithFields.setVisibility(View.VISIBLE);
                                             textView.setVisibility(View.VISIBLE);
-                                            Toast.makeText(RegistrationActivity.this, "Вы успешно зарегестрировались, выбрать изображение профиля можно во вкладке Аккаунт", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(RegistrationActivity.this, FavouriteTagsActivity.class));
+                                            Toast.makeText(RegistrationActivity.this,
+                                                    "Вы успешно зарегестрировались, выбрать изображение профиля можно во вкладке Аккаунт",
+                                                    Toast.LENGTH_SHORT).show();
+                                            Intent i = new Intent(RegistrationActivity.this, FavouriteTagsActivity.class);
+                                            i.putExtra("fromRegistration",true);
+                                            startActivity(i);
                                             finish();
                                         }
                                     }
