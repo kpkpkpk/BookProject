@@ -12,9 +12,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -201,23 +203,39 @@ private ArrayList<Integer> favoriteTags;
         String userId=null;
         if (firebaseUser != null) {
             userId = firebaseUser.getUid();
+            Log.d("getTagsId",userId+"is Exists");
             databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("tags_id");
-            databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        GenericTypeIndicator<ArrayList<Integer>> arrayListGenericTypeIndicator =
-                                new GenericTypeIndicator<ArrayList<Integer>>() {
-                                };
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+                        databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    GenericTypeIndicator<ArrayList<Integer>> arrayListGenericTypeIndicator =
+                                            new GenericTypeIndicator<ArrayList<Integer>>() {
+                                            };
 
-                        favoriteTags=task.getResult().getValue(arrayListGenericTypeIndicator);
-                        Log.d("BOOKS",favoriteTags.toString());
+                                    favoriteTags = task.getResult().getValue(arrayListGenericTypeIndicator);
+                                    isall = true;
+                                    Log.d("BOOKS", favoriteTags.toString());
+                                }
+
+                            }
+                        });
+                    }else{
+                        favoriteTags=new ArrayList<>();
                         isall=true;
                     }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
                 }
             });
+
         }
     }
     public String getTag(int id){

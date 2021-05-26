@@ -57,7 +57,9 @@ public class FavouriteTagsActivity extends AppCompatActivity {
                     }
                     //добавляем данные в БД
                     databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags);
-                    startActivity(new Intent(FavouriteTagsActivity.this, MainActivity.class));
+                    Intent intent=new Intent(FavouriteTagsActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                     finish();
                 }
             }
