@@ -1,11 +1,10 @@
-package com.kp.bookproject;
+package com.kp.bookproject.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,13 +18,10 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kp.bookproject.Controller.DatabaseController;
+import com.kp.bookproject.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.kp.bookproject.Constants.SELECTED_TAGS_COUNT;
-import static com.kp.bookproject.Constants.SELECTED_TAGS_KEY;
-import static com.kp.bookproject.Constants.SHARED_PREFERENCES_FAVORITE_TAGS_NAME;
 
 public class FavouriteTagsActivity extends AppCompatActivity {
     private ChipGroup chipGroup;
@@ -81,7 +77,7 @@ public class FavouriteTagsActivity extends AppCompatActivity {
                                     Toast.makeText(FavouriteTagsActivity.this,
                                             getResources().getString(R.string.registration_rejected),
                                             Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(FavouriteTagsActivity.this,RegistrationActivity.class));
+                                    startActivity(new Intent(FavouriteTagsActivity.this, RegistrationActivity.class));
                                     finish();
                                 }
                             }

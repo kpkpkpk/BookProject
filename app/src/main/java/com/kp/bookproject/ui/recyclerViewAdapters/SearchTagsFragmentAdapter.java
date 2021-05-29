@@ -1,7 +1,6 @@
-package com.kp.bookproject.ui.search;
+package com.kp.bookproject.ui.recyclerViewAdapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kp.bookproject.R;
-import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
 
 import java.util.ArrayList;
 
-public class SearchFragmentAdapter extends RecyclerView.Adapter<SearchFragmentAdapter.ViewHolder> {
+public class SearchTagsFragmentAdapter extends RecyclerView.Adapter<SearchTagsFragmentAdapter.ViewHolder> {
 
 private ArrayList<String> tagsString;
 private Context context;
 private SearchItemClickListener itemClickListener;
 
-    public SearchFragmentAdapter(Context context,ArrayList<String> tagsString) {
+    public SearchTagsFragmentAdapter(Context context, ArrayList<String> tagsString) {
         this.tagsString = tagsString;
         this.context = context;
     }

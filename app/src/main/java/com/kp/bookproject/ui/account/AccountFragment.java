@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +19,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -31,10 +27,9 @@ import com.kp.bookproject.Callback;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.Entity.Account;
 import com.kp.bookproject.Entity.Book;
-import com.kp.bookproject.FavouriteTagsActivity;
-import com.kp.bookproject.LoginActivity;
+import com.kp.bookproject.ui.FavouriteTagsActivity;
+import com.kp.bookproject.ui.LoginActivity;
 import com.kp.bookproject.R;
-import com.kp.bookproject.ui.search.SelectedTagFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,9 +37,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.kp.bookproject.Constants.EDIT_PROFILE_TAG;
-import static com.kp.bookproject.Constants.FRAGMENT_ACCOUNT_TAG;
 import static com.kp.bookproject.Constants.REQUEST_CODE_FOR_ACCOUNT;
-import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 import static com.kp.bookproject.Constants.SHOW_LIKED_TAG;
 
 public class AccountFragment extends Fragment {

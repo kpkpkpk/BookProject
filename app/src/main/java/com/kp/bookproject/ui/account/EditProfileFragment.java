@@ -1,13 +1,9 @@
 package com.kp.bookproject.ui.account;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileUtils;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,7 +24,6 @@ import androidx.core.app.JobIntentService;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -39,25 +33,14 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.kp.bookproject.Entity.Account;
-import com.kp.bookproject.MainActivity;
 import com.kp.bookproject.R;
-import com.kp.bookproject.ui.bookpage.ImportRatingService;
-import com.kp.bookproject.ui.home.HomeFragment;
-import com.kp.bookproject.ui.search.SelectedTagFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.kp.bookproject.Constants.FRAGMENT_ACCOUNT_TAG;
-import static com.kp.bookproject.Constants.FRAGMENT_HOME_TAG;
-import static com.kp.bookproject.Constants.JOB_ID;
 import static com.kp.bookproject.Constants.JOB_ID_CHANGES;
-import static com.kp.bookproject.Constants.PICK_PHOTO_FROM_GALLERY;
-import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 
 public class EditProfileFragment extends Fragment {
     private View root;

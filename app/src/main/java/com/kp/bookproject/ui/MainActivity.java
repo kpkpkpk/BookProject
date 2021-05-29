@@ -1,4 +1,4 @@
-package com.kp.bookproject;
+package com.kp.bookproject.ui;
 
 import android.Manifest;
 import android.content.Intent;
@@ -24,6 +24,7 @@ import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsList
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.kp.bookproject.R;
 import com.kp.bookproject.ui.home.HomeFragment;
 import com.kp.bookproject.ui.account.AccountFragment;
 import com.kp.bookproject.ui.search.SearchFragment;

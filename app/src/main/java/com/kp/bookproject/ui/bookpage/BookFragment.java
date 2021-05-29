@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.JobIntentService;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,14 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +28,8 @@ import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.bookpage.services.ImportAuthorService;
+import com.kp.bookproject.ui.bookpage.services.ImportRatingService;
 
 import java.util.ArrayList;
 
@@ -80,12 +79,12 @@ public class BookFragment extends Fragment {
                     isChanged=true;
                     book.setRating(book.getRating()+1);
                     rating.setText(getResources().getString(R.string.book_fragment_liked)+" "+Integer.toString(book.getRating()));
-                    Intent i=new Intent(root.getContext(),ImportRatingService.class);
+                    Intent i=new Intent(root.getContext(), ImportRatingService.class);
                     i.putExtra("Like",true);
                     i.putExtra("book_id",id);
                     i.putExtra("book_rating",book.getRating());
                     JobIntentService.enqueueWork(root.getContext(),ImportRatingService.class,JOB_ID,i);
-                    Intent secI=new Intent(root.getContext(),ImportAuthorService.class);
+                    Intent secI=new Intent(root.getContext(), ImportAuthorService.class);
                     secI.putExtra("author_name",book.getAuthorName());
                     secI.putExtra("Like",true);
                     JobIntentService.enqueueWork(root.getContext(),ImportAuthorService.class,JOB_ID+1,secI);

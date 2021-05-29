@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,9 +19,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Account;
 import com.kp.bookproject.Entity.Book;
+import com.kp.bookproject.ui.recyclerViewAdapters.HorizontalBookRecyclerViewBooksAdapter;
 
 import java.io.File;
 import java.sql.Connection;
@@ -273,7 +272,7 @@ private ArrayList<Integer> favoriteTags;
      * Books
      * @param tagName исползуется для получения книг по ранее выбранному пользователем тегу
      * @return возвращаем ArrayList для
-     * @see com.kp.bookproject.ui.RecyclerViewBooksAdapter
+     * @see HorizontalBookRecyclerViewBooksAdapter
      * Используется для получения десяти РАНДОМНЫХ книг отсортированных по рейтингу
      * Взаимодействовать с этим методом исключительно через отдельный поток, так как:
      * виснет UI

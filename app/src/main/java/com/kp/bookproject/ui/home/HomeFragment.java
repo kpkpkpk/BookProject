@@ -2,7 +2,6 @@
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,28 +24,16 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.Entity.News;
 import com.kp.bookproject.Entity.NewsApiAnswer;
-import com.kp.bookproject.FavouriteTagsActivity;
-import com.kp.bookproject.LoginActivity;
-import com.kp.bookproject.MainActivity;
+import com.kp.bookproject.ui.FavouriteTagsActivity;
 import com.kp.bookproject.R;
-import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
+import com.kp.bookproject.ui.recyclerViewAdapters.HorizontalBookRecyclerViewBooksAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
-import com.kp.bookproject.ui.search.SelectedTagFragment;
+import com.kp.bookproject.ui.recyclerViewAdapters.NewsRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,16 +43,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.kp.bookproject.Constants.FRAGMENT_HOME_TAG;
 import static com.kp.bookproject.Constants.SELECTED_BOOK;
-import static com.kp.bookproject.Constants.SELECTED_TAGS_COUNT;
-import static com.kp.bookproject.Constants.SELECTED_TAGS_KEY;
 
-import static com.kp.bookproject.Constants.SHARED_PREFERENCES_FAVORITE_TAGS_NAME;
-
-public class HomeFragment extends Fragment {
-    private RecyclerViewBooksAdapter recyclerViewBooksAdapter;
+   public class HomeFragment extends Fragment {
+    private HorizontalBookRecyclerViewBooksAdapter recyclerViewBooksAdapter;
     private String name;
     private View root;
     private LinearLayout secondL;
@@ -241,8 +222,8 @@ public class HomeFragment extends Fragment {
                 Log.d("check", "books is null" + books.isEmpty());
 
 
-                recyclerViewBooksAdapter = new RecyclerViewBooksAdapter(books, root.getContext());
-                recyclerViewBooksAdapter.setClickListener(new RecyclerViewBooksAdapter.ItemClickListener() {
+                recyclerViewBooksAdapter = new HorizontalBookRecyclerViewBooksAdapter(books, root.getContext());
+                recyclerViewBooksAdapter.setClickListener(new HorizontalBookRecyclerViewBooksAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int id) {
 //                    Intent i = new Intent(root.getContext(), BookFragment.class);

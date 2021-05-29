@@ -1,4 +1,5 @@
-package com.kp.bookproject.ui.account;
+package com.kp.bookproject.ui.recyclerViewAdapters;
+
 
 import android.content.Context;
 import android.util.Log;
@@ -14,40 +15,41 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.R;
-import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
 
 import java.util.ArrayList;
 
-public class LikedRecyclerViewAdapter extends RecyclerView.Adapter<LikedRecyclerViewAdapter.ViewHolder> {
+// Вынес класс из одного ui, ибо понял, что он будет использоваться и на новой активити при выборе тега на вкладке Search
+
+public class HorizontalBookRecyclerViewBooksAdapter extends RecyclerView.Adapter<HorizontalBookRecyclerViewBooksAdapter.ViewHolder> {
     private ArrayList<Book> books;
     private final Context context;
-    private LikedRecyclerViewAdapter.ItemClickListener itemClickListener;
-    public LikedRecyclerViewAdapter(ArrayList<Book> books,Context context) {
+    private  ItemClickListener itemClickListener;
+    public HorizontalBookRecyclerViewBooksAdapter(ArrayList<Book> books, Context context) {
         this.books = books;
         Log.d("checkn",books.isEmpty()+" recycler");
         this.context=context;
     }
-    //Создаем наш view
+//Создаем наш view
     @NonNull
     @Override
-    public LikedRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context)
-                .inflate(R.layout.vertical_book_item,parent,false);
-        Log.d("adapter","sure cre");
-        return new LikedRecyclerViewAdapter.ViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+       View view= LayoutInflater.from(context)
+               .inflate(R.layout.horizontal_book_item,parent,false);
+       Log.d("adapter","sure cre");
+       return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LikedRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bookName.setText(books.get(position).getBook_name());
         holder.author.setText(books.get(position).getAuthorName());
         Log.d("adap","sure cre");
         Glide.with(context).load(books.get(position).getImage_url()).into(holder.imageBook);
     }
-    //к-во элементов на recyclerview(примерно 10)
+//к-во элементов на recyclerview(примерно 10)
     @Override
     public int getItemCount() {
-        return books.size();
+      return books.size();
     }
 
     //создаем ViewHolder
@@ -59,14 +61,14 @@ public class LikedRecyclerViewAdapter extends RecyclerView.Adapter<LikedRecycler
      * нам важно сохранять ссылку на экземпляр внешнего класса, ибо без него холдер - пустышка :))
      */
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imageBook;
-        TextView author;
-        TextView bookName;
+         ImageView imageBook;
+         TextView author;
+         TextView bookName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageBook=itemView.findViewById(R.id.vertical_book_item_image);
-            author=itemView.findViewById(R.id.vertical_book_item_author);
-            bookName=itemView.findViewById(R.id.vertical_book_item_bookname);
+            imageBook=itemView.findViewById(R.id.image_book_item);
+            author=itemView.findViewById(R.id.book_author_name);
+            bookName=itemView.findViewById(R.id.book_name_item);
             itemView.setOnClickListener(this);
         }
         @Override
@@ -89,7 +91,7 @@ public class LikedRecyclerViewAdapter extends RecyclerView.Adapter<LikedRecycler
      *
      * @param mItemClickListener передается из Activity, в котором мы определяем поведение программы\
      */
-    public void setClickListener(LikedRecyclerViewAdapter.ItemClickListener mItemClickListener) {
+    public void setClickListener(ItemClickListener mItemClickListener) {
         itemClickListener = mItemClickListener;
     }
 

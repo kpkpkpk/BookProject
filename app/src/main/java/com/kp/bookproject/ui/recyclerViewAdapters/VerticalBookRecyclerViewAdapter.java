@@ -1,5 +1,4 @@
-package com.kp.bookproject.ui;
-
+package com.kp.bookproject.ui.recyclerViewAdapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,38 +17,36 @@ import com.kp.bookproject.R;
 
 import java.util.ArrayList;
 
-// Вынес класс из одного ui, ибо понял, что он будет использоваться и на новой активити при выборе тега на вкладке Search
-
-public class RecyclerViewBooksAdapter extends RecyclerView.Adapter<RecyclerViewBooksAdapter.ViewHolder> {
+public class VerticalBookRecyclerViewAdapter extends RecyclerView.Adapter<VerticalBookRecyclerViewAdapter.ViewHolder> {
     private ArrayList<Book> books;
     private final Context context;
-    private  ItemClickListener itemClickListener;
-    public RecyclerViewBooksAdapter(ArrayList<Book> books,Context context) {
+    private VerticalBookRecyclerViewAdapter.ItemClickListener itemClickListener;
+    public VerticalBookRecyclerViewAdapter(ArrayList<Book> books, Context context) {
         this.books = books;
         Log.d("checkn",books.isEmpty()+" recycler");
         this.context=context;
     }
-//Создаем наш view
+    //Создаем наш view
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View view= LayoutInflater.from(context)
-               .inflate(R.layout.horizontal_book_item,parent,false);
-       Log.d("adapter","sure cre");
-       return new ViewHolder(view);
+    public VerticalBookRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(context)
+                .inflate(R.layout.vertical_book_item,parent,false);
+        Log.d("adapter","sure cre");
+        return new VerticalBookRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull VerticalBookRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.bookName.setText(books.get(position).getBook_name());
         holder.author.setText(books.get(position).getAuthorName());
         Log.d("adap","sure cre");
         Glide.with(context).load(books.get(position).getImage_url()).into(holder.imageBook);
     }
-//к-во элементов на recyclerview(примерно 10)
+    //к-во элементов на recyclerview(примерно 10)
     @Override
     public int getItemCount() {
-      return books.size();
+        return books.size();
     }
 
     //создаем ViewHolder
@@ -61,14 +58,14 @@ public class RecyclerViewBooksAdapter extends RecyclerView.Adapter<RecyclerViewB
      * нам важно сохранять ссылку на экземпляр внешнего класса, ибо без него холдер - пустышка :))
      */
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-         ImageView imageBook;
-         TextView author;
-         TextView bookName;
+        ImageView imageBook;
+        TextView author;
+        TextView bookName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageBook=itemView.findViewById(R.id.image_book_item);
-            author=itemView.findViewById(R.id.book_author_name);
-            bookName=itemView.findViewById(R.id.book_name_item);
+            imageBook=itemView.findViewById(R.id.vertical_book_item_image);
+            author=itemView.findViewById(R.id.vertical_book_item_author);
+            bookName=itemView.findViewById(R.id.vertical_book_item_bookname);
             itemView.setOnClickListener(this);
         }
         @Override
@@ -91,7 +88,7 @@ public class RecyclerViewBooksAdapter extends RecyclerView.Adapter<RecyclerViewB
      *
      * @param mItemClickListener передается из Activity, в котором мы определяем поведение программы\
      */
-    public void setClickListener(ItemClickListener mItemClickListener) {
+    public void setClickListener(VerticalBookRecyclerViewAdapter.ItemClickListener mItemClickListener) {
         itemClickListener = mItemClickListener;
     }
 

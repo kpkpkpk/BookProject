@@ -1,4 +1,4 @@
-package com.kp.bookproject;
+package com.kp.bookproject.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.kp.bookproject.R;
 
 import java.util.HashMap;
 

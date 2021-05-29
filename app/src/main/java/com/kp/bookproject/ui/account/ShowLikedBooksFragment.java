@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,8 +25,8 @@ import com.kp.bookproject.Callback;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.R;
-import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
+import com.kp.bookproject.ui.recyclerViewAdapters.VerticalBookRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,8 +126,8 @@ public class ShowLikedBooksFragment extends Fragment {
         if (books.isEmpty()) {
            callback.onComplete();
         } else{
-            LikedRecyclerViewAdapter recyclerViewBooksAdapter = new LikedRecyclerViewAdapter(books, root.getContext());
-        recyclerViewBooksAdapter.setClickListener(new LikedRecyclerViewAdapter.ItemClickListener() {
+            VerticalBookRecyclerViewAdapter recyclerViewBooksAdapter = new VerticalBookRecyclerViewAdapter(books, root.getContext());
+        recyclerViewBooksAdapter.setClickListener(new VerticalBookRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int id) {
 //                    Intent i = new Intent(root.getContext(), BookFragment.class);
