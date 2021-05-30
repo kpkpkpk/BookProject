@@ -32,6 +32,7 @@ import com.kp.bookproject.Entity.NewsApiAnswer;
 import com.kp.bookproject.ui.FavouriteTagsActivity;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.bookpage.BookActivity;
+import com.kp.bookproject.ui.bookpage.BookSheetDialog;
 import com.kp.bookproject.ui.recyclerViewAdapters.HorizontalBookRecyclerViewBooksAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
 import com.kp.bookproject.ui.recyclerViewAdapters.NewsRecyclerViewAdapter;
@@ -230,6 +231,8 @@ import static com.kp.bookproject.HelperClasses.Constants.SELECTED_BOOK;
                       Intent intent=new Intent(getActivity(), BookActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putInt("id", id);
+//                        BookSheetDialog bookSheetDialog=BookSheetDialog.newInstance(bundle);
+//                        bookSheetDialog.show(getActivity().getSupportFragmentManager(),bookSheetDialog.getTag());
                         intent.putExtra("bundle",bundle);
                        startActivity(intent);
                     }
