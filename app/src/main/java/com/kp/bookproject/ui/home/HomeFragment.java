@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -50,7 +51,7 @@ import static com.kp.bookproject.Constants.SELECTED_BOOK;
     private String name;
     private View root;
     private LinearLayout secondL;
-    private RelativeLayout mainLayout;
+    private ConstraintLayout mainLayout;
     private TextView text,lastNews;
     private ProgressBar progressBar;
     private RecyclerView recyclerViewNews;

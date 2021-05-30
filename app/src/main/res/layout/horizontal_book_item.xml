@@ -1,38 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintLayout_book_item_horizontal"
     android:layout_width="130dp"
     android:layout_height="wrap_content">
+
     <ImageView
-        android:layout_alignParentTop="true"
+        android:id="@+id/image_book_item"
         android:layout_width="110dp"
         android:layout_height="170dp"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:scaleType="centerCrop"
-        android:id="@+id/image_book_item"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
+        android:id="@+id/book_author_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_margin="5dp"
-        android:maxLines="1"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:ellipsize="end"
         android:maxLength="20"
-        android:ellipsize="end"
+        android:maxLines="1"
         android:text="testtesteststesteste"
-        android:layout_below="@id/image_book_item"
-        android:id="@+id/book_author_name"/>
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_book_item" />
+
     <TextView
+        android:id="@+id/book_name_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="asjdfadjsjfksadfasdfj;sadjjddjdjjjdjddjdjdjdf"
-        android:maxLines="1"
-        android:textSize="15sp"
-        android:maxLength="25"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:ellipsize="end"
-        android:id="@+id/book_name_item"
-        android:layout_below="@id/book_author_name"/>
+        android:maxLength="25"
+        android:maxLines="1"
+        android:text="asjdfadjsjfksadfasdfj;sadjjddjdjjjdjddjdjdjdf"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/book_author_name" />
 
-    
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

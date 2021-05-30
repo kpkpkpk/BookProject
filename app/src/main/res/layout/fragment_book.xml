@@ -9,20 +9,29 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content">
-        <RelativeLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_margin="2dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp">
+
+            android:id="@+id/info_about_book_layout">
+
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="270dp"
-                android:layout_alignParentStart="true"
-                android:id="@+id/activity_book_image"/>
-            <RelativeLayout
-                android:layout_toEndOf="@id/activity_book_image"
-                android:layout_width="wrap_content"
+                android:id="@+id/activity_book_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/activity_book_image">
+
                 <View
                     android:layout_marginTop="5dp"
                     android:layout_alignParentTop="true"
@@ -31,10 +40,13 @@
                     android:id="@+id/first_view"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_height="1dp"/>
+                    android:layout_height="1dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
-                    android:layout_below="@id/first_view"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/activity_book_title"
                     android:textStyle="bold"
@@ -43,67 +55,76 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="3dp"
                     android:layout_gravity=""
-                    android:text="NULL"/>
+                    android:text="NULLLLLLLLLLLLLLLLLLL"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/first_view" />
 
                 <TextView
                     android:layout_below="@id/activity_book_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textStyle="normal"
                     android:text="author: null"
                     android:textSize="15sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/activity_book_author_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/activity_book_title" />
 
-                    android:id="@+id/activity_book_author_name"/>
                 <TextView
                     android:layout_below="@id/activity_book_author_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:id="@+id/activity_book_genre"
                     android:textSize="15sp"
-                    android:text="Жанр: NULL"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Жанр: NULL"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/activity_book_author_name" />
 
-                    <TextView
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Количество лайков: 00"
-                        android:layout_below="@id/activity_book_genre"
-                        android:layout_gravity="center"
-
-                        android:layout_marginStart="20dp"
-                        android:id="@+id/activity_book_rating"/>
-
-
-
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-    <!-- Отступ -->
+                <TextView
+                    android:textSize="15sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Количество лайков: 00"
+                    android:layout_below="@id/activity_book_genre"
+                    android:layout_gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/activity_book_rating"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/activity_book_genre" />
 
 
-<!--  Для к-ва лайков и кнопки лайка-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Отступ -->
 
 
-<!--отступ-->
-    <View
-        android:layout_width="match_parent"
-        android:background="#C0C0C0"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/third_view"
-        android:layout_marginRight="10dp"
-        android:layout_height="1dp"/>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textStyle="bold"
-    android:id="@+id/activity_book_description_title"
-    android:layout_marginTop="20dp"
-    android:layout_marginStart="20dp"
-    android:text="@string/book_fragment_description"/>
+        <!--  Для к-ва лайков и кнопки лайка-->
+
+
+        <!--отступ-->
+        <View
+            android:layout_width="match_parent"
+            android:background="#C0C0C0"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/third_view"
+            android:layout_marginRight="10dp"
+            android:layout_height="1dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:id="@+id/activity_book_description_title"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/book_fragment_description"/>
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -131,7 +152,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/activity_book_like_button"
         android:layout_width="wrap_content"
-       android:background="?android:colorPrimary"
+        android:background="?android:colorPrimary"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"

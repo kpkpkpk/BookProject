@@ -58,7 +58,7 @@ public class SelectedTagFragment extends Fragment {
         booksRecyclerView=root.findViewById(R.id.recycler_view_books_with_selected_tag);
         progressBar=root.findViewById(R.id.fragment_selected_tags_progressbar);
         progressBar.setVisibility(View.VISIBLE);
-//        selectedTagText.setVisibility(View.GONE);
+        selectedTagText.setVisibility(View.GONE);
         booksRecyclerView.setVisibility(View.GONE);
         chipGroupForTags.setVisibility(View.GONE);
       return root;
