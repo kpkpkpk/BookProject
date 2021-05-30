@@ -73,7 +73,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
     }
 
     /**
-     * Интерфейс создается для взаимодействия между адаптером и активити, в методе мы просто передаем id
+     * Интерфейс создается для взаимодействия между адаптером и активити, в методе мы просто передаем url
      */
     public interface ItemClickListener{
         void onItemClick(String url);
@@ -81,7 +81,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
 
     /**
      *
-     * @param mItemClickListener передается из Activity, в котором мы определяем поведение программы\
+     * @param mItemClickListener передается из Activity, в котором мы определяем поведение
      */
     public void setClickListener(NewsRecyclerViewAdapter.ItemClickListener mItemClickListener) {
         itemClickListener = mItemClickListener;

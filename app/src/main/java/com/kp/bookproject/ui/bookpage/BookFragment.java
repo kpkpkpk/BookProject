@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.kp.bookproject.Callback;
+import com.kp.bookproject.HelperClasses.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.R;
@@ -33,7 +33,7 @@ import com.kp.bookproject.ui.bookpage.services.ImportRatingService;
 
 import java.util.ArrayList;
 
-import static com.kp.bookproject.Constants.JOB_ID;
+import static com.kp.bookproject.HelperClasses.Constants.JOB_ID;
 
 public class BookFragment extends Fragment {
     private TextView bookTitle,authorName,description,rating,genre,descriptionTitle;
@@ -53,13 +53,11 @@ public class BookFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
       root=inflater.inflate(R.layout.fragment_book,container,false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
       id=getArguments().getInt("id");
         bookImage=root.findViewById(R.id.activity_book_image);
         firstLine=root.findViewById(R.id.first_view);
         thirdLine=root.findViewById(R.id.third_view);
-        toolbar=getActivity().findViewById(R.id.tool_bar);
-        toolbar.setTitle("");
         descriptionTitle=root.findViewById(R.id.activity_book_description_title);
         genre=root.findViewById(R.id.activity_book_genre);
         bookTitle=root.findViewById(R.id.activity_book_title);
@@ -145,6 +143,7 @@ public class BookFragment extends Fragment {
                             public void run() {
                                 Glide.with(root.getContext()).load(receivedBook.getImage_url()).into(bookImage);
                                 bookTitle.setText(receivedBook.getBook_name());
+
                                 authorName.setText(getResources().getString(R.string.book_fragment_author)+" "+receivedBook.getAuthorName());
                                 rating.setText(getResources().getString(R.string.book_fragment_liked)+" "+Integer.toString(receivedBook.getRating()));
                                 description.setText(receivedBook.getDescription());

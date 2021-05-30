@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,13 +24,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kp.bookproject.Callback;
+import com.kp.bookproject.HelperClasses.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.Entity.News;
 import com.kp.bookproject.Entity.NewsApiAnswer;
 import com.kp.bookproject.ui.FavouriteTagsActivity;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.bookpage.BookActivity;
+import com.kp.bookproject.ui.bookpage.BookSheetDialog;
 import com.kp.bookproject.ui.recyclerViewAdapters.HorizontalBookRecyclerViewBooksAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
 import com.kp.bookproject.ui.recyclerViewAdapters.NewsRecyclerViewAdapter;
@@ -43,14 +45,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.kp.bookproject.Constants.SELECTED_BOOK;
+import static com.kp.bookproject.HelperClasses.Constants.SELECTED_BOOK;
 
    public class HomeFragment extends Fragment {
     private HorizontalBookRecyclerViewBooksAdapter recyclerViewBooksAdapter;
     private String name;
     private View root;
     private LinearLayout secondL;
-    private RelativeLayout mainLayout;
+    private ConstraintLayout mainLayout;
     private TextView text,lastNews;
     private ProgressBar progressBar;
     private RecyclerView recyclerViewNews;
@@ -226,31 +228,13 @@ import static com.kp.bookproject.Constants.SELECTED_BOOK;
                 recyclerViewBooksAdapter.setClickListener(new HorizontalBookRecyclerViewBooksAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int id) {
-//                    Intent i = new Intent(root.getContext(), BookFragment.class);
-//                    i.putExtra("id",id);
-//                    startActivity(i);
-                        FragmentManager fragmentManager = getParentFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        List<Fragment> existingFragments = fragmentManager.getFragments();
-                        Log.d("isListExist", (existingFragments != null) + "");
-                        Fragment currentShownFragment = null;
-                        //проверяем, есть ли на экране отображаемые фрагменты
-                        if (existingFragments != null) {
-                            for (Fragment fragment : existingFragments) {
-                                if (fragment.isVisible()) {
-                                    currentShownFragment = fragment;
-                                    break;
-                                }
-                            }
-                        }
-                        BookFragment fragment = new BookFragment();
+                      Intent intent=new Intent(getActivity(), BookActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putInt("id", id);
-                        fragment.setArguments(bundle);
-                        fragmentTransaction.add(R.id.nav_host_fragment, fragment, SELECTED_BOOK);
-                        fragmentTransaction.addToBackStack("PREVIOUS");
-                        fragmentTransaction.hide(currentShownFragment);
-                        fragmentTransaction.show(fragment).commit();
+//                        BookSheetDialog bookSheetDialog=BookSheetDialog.newInstance(bundle);
+//                        bookSheetDialog.show(getActivity().getSupportFragmentManager(),bookSheetDialog.getTag());
+                        intent.putExtra("bundle",bundle);
+                       startActivity(intent);
                     }
                 });
                 booksRecyclerView.setAdapter(recyclerViewBooksAdapter);

@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.kp.bookproject.Callback;
+import com.kp.bookproject.HelperClasses.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.R;
@@ -33,8 +33,8 @@ import com.kp.bookproject.ui.bookpage.BookFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kp.bookproject.Constants.SELECTED_BOOK;
-import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
+import static com.kp.bookproject.HelperClasses.Constants.SELECTED_BOOK;
+import static com.kp.bookproject.HelperClasses.Constants.SELECTED_TAG_FRAGMENT;
 
 public class SelectedTagFragment extends Fragment {
     private View root;
@@ -58,7 +58,7 @@ public class SelectedTagFragment extends Fragment {
         booksRecyclerView=root.findViewById(R.id.recycler_view_books_with_selected_tag);
         progressBar=root.findViewById(R.id.fragment_selected_tags_progressbar);
         progressBar.setVisibility(View.VISIBLE);
-//        selectedTagText.setVisibility(View.GONE);
+        selectedTagText.setVisibility(View.GONE);
         booksRecyclerView.setVisibility(View.GONE);
         chipGroupForTags.setVisibility(View.GONE);
       return root;

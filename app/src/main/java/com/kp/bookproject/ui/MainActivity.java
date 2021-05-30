@@ -1,29 +1,10 @@
 package com.kp.bookproject.ui;
 
-import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.OnDialogButtonClickListener;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
-import com.karumi.dexter.listener.single.PermissionListener;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.home.HomeFragment;
 import com.kp.bookproject.ui.account.AccountFragment;
@@ -40,12 +21,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.List;
 
-import static com.kp.bookproject.Constants.FRAGMENT_ACCOUNT_TAG;
-import static com.kp.bookproject.Constants.FRAGMENT_HOME_TAG;
+import static com.kp.bookproject.HelperClasses.Constants.FRAGMENT_ACCOUNT_TAG;
+import static com.kp.bookproject.HelperClasses.Constants.FRAGMENT_HOME_TAG;
 
-import static com.kp.bookproject.Constants.FRAGMENT_SEARCH_TAG;
-import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
-import static com.kp.bookproject.Constants.SHOW_LIKED_TAG;
+import static com.kp.bookproject.HelperClasses.Constants.FRAGMENT_SEARCH_TAG;
 
 public class MainActivity extends AppCompatActivity {
 

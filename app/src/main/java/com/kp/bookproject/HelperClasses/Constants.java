@@ -1,4 +1,4 @@
-package com.kp.bookproject;
+package com.kp.bookproject.HelperClasses;
 
 public final class Constants {
     public static final String SHARED_PREFERENCES_FAVORITE_TAGS_NAME="selected_tags";

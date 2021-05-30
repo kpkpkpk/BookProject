@@ -1,4 +1,4 @@
-package com.kp.bookproject.ui;
+package com.kp.bookproject.ui.startpages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.MainActivity;
 
 
 public class LoginActivity extends AppCompatActivity {

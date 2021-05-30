@@ -1,6 +1,7 @@
 package com.kp.bookproject.ui.account;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,17 +22,18 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kp.bookproject.Callback;
+import com.kp.bookproject.HelperClasses.Callback;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.bookpage.BookActivity;
 import com.kp.bookproject.ui.bookpage.BookFragment;
 import com.kp.bookproject.ui.recyclerViewAdapters.VerticalBookRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kp.bookproject.Constants.SELECTED_BOOK;
+import static com.kp.bookproject.HelperClasses.Constants.SELECTED_BOOK;
 
 public class ShowLikedBooksFragment extends Fragment {
     private View root;
@@ -147,14 +149,11 @@ public class ShowLikedBooksFragment extends Fragment {
                         }
                     }
                 }
-                BookFragment fragment = new BookFragment();
+                Intent intent=new Intent(getActivity(), BookActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", id);
-                fragment.setArguments(bundle);
-                fragmentTransaction.add(R.id.nav_host_fragment, fragment, SELECTED_BOOK);
-                fragmentTransaction.addToBackStack("PREVIOUS");
-                fragmentTransaction.hide(currentShownFragment);
-                fragmentTransaction.show(fragment).commit();
+                intent.putExtra("bundle",bundle);
+                startActivity(intent);
             }
         });
         try {

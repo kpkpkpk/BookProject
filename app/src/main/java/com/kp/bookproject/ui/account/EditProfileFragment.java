@@ -40,7 +40,7 @@ import java.io.File;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.kp.bookproject.Constants.JOB_ID_CHANGES;
+import static com.kp.bookproject.HelperClasses.Constants.JOB_ID_CHANGES;
 
 public class EditProfileFragment extends Fragment {
     private View root;
