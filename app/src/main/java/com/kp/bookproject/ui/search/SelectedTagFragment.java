@@ -1,6 +1,5 @@
 package com.kp.bookproject.ui.search;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,14 +27,12 @@ import com.kp.bookproject.Callback;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.R;
-import com.kp.bookproject.ui.RecyclerViewBooksAdapter;
-import com.kp.bookproject.ui.account.LikedRecyclerViewAdapter;
+import com.kp.bookproject.ui.recyclerViewAdapters.VerticalBookRecyclerViewAdapter;
 import com.kp.bookproject.ui.bookpage.BookFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kp.bookproject.Constants.FRAGMENT_SEARCH_TAG;
 import static com.kp.bookproject.Constants.SELECTED_BOOK;
 import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 
@@ -181,8 +176,8 @@ public class SelectedTagFragment extends Fragment {
         Log.d("check","books is null"+books.isEmpty());
 
 //Пришлось использовать другой адаптер, потому что просто напросто GridView смотрится ужасно
-       LikedRecyclerViewAdapter recyclerViewBooksAdapter = new LikedRecyclerViewAdapter(books, root.getContext());
-        recyclerViewBooksAdapter.setClickListener(new LikedRecyclerViewAdapter.ItemClickListener() {
+       VerticalBookRecyclerViewAdapter recyclerViewBooksAdapter = new VerticalBookRecyclerViewAdapter(books, root.getContext());
+        recyclerViewBooksAdapter.setClickListener(new VerticalBookRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int id) {
 //                    Intent i = new Intent(root.getContext(), BookFragment.class);

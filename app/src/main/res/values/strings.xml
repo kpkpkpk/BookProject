@@ -47,4 +47,8 @@
     <string name="search_fragment_all_genres">Все жанры</string>
     <string name="select_image_bottom_text_photo">Выбрать фото</string>
     <string name="fragment_account_edit_tags_button_text">Изменить выбранные жанры</string>
+    <string name="registration_hint">Все поля должны быть заполнены</string>
+    <string name="unsuccessful_login">Проверьте логин или пароль</string>
+    <string name="registration_create_pass_hint">Ваш пароль должен состоять не менее чем из 8 символов</string>
+    <string name="successful_registr">Вы успешно зарегестрировались, выбрать изображение профиля можно во вкладке Аккаунт</string>
 </resources>

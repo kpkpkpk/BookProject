@@ -1,4 +1,4 @@
-package com.kp.bookproject;
+package com.kp.bookproject.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.kp.bookproject.R;
 
 import java.util.HashMap;
 
@@ -58,9 +58,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 String email=loginField.getText().toString();
                 String password=passField.getText().toString();
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(RegistrationActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.registration_hint), Toast.LENGTH_SHORT).show();
                 }else if(password.length()<8){
-                    Toast.makeText(RegistrationActivity.this, "Password should contain more than 8 symbols",
+                    Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.registration_create_pass_hint),
                             Toast.LENGTH_SHORT).show();
                 }else{
                     userRegister(username,email,password);
@@ -108,7 +108,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                             layoutWithFields.setVisibility(View.VISIBLE);
                                             textView.setVisibility(View.VISIBLE);
                                             Toast.makeText(RegistrationActivity.this,
-                                                    "Вы успешно зарегестрировались, выбрать изображение профиля можно во вкладке Аккаунт",
+                                                    getResources().getString(R.string.successful_registr),
                                                     Toast.LENGTH_SHORT).show();
                                             Intent i = new Intent(RegistrationActivity.this, FavouriteTagsActivity.class);
                                             i.putExtra("fromRegistration",true);
@@ -130,7 +130,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     }
                 }else{
-                    Toast.makeText(RegistrationActivity.this, "Проверьте правильность почты или введеного пароля",
+                    Toast.makeText(RegistrationActivity.this, getResources().getString(R.string.unsuccessful_login),
                             Toast.LENGTH_SHORT).show();
 
                 }

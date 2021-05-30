@@ -16,11 +16,11 @@
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".FavouriteTagsActivity" />
-        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.FavouriteTagsActivity" />
+        <activity android:name=".ui.RegistrationActivity" />
         <activity
-            android:name=".LoginActivity">
+            android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -32,10 +32,10 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
-            android:name=".ui.bookpage.ImportRatingService"
+            android:name=".ui.bookpage.services.ImportRatingService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".ui.bookpage.ImportAuthorService"
+            android:name=".ui.bookpage.services.ImportAuthorService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 

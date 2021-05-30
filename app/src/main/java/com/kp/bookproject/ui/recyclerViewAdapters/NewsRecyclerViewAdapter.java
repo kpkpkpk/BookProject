@@ -1,21 +1,17 @@
-package com.kp.bookproject.ui.home;
+package com.kp.bookproject.ui.recyclerViewAdapters;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.Entity.News;
 import com.kp.bookproject.R;
-import com.kp.bookproject.ui.account.LikedRecyclerViewAdapter;
 
 import java.util.ArrayList;
 

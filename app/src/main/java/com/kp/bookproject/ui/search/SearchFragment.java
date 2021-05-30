@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,13 +16,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.recyclerViewAdapters.SearchTagsFragmentAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.kp.bookproject.Constants.FRAGMENT_SEARCH_TAG;
 import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
 
 public class SearchFragment extends Fragment {
@@ -47,8 +45,8 @@ public class SearchFragment extends Fragment {
         String[] tags=getResources().getStringArray(R.array.array_tags);
         Collections.addAll(arrayList,tags);
         recyclerViewTags.addItemDecoration(new DividerItemDecoration(root.getContext(), GridLayoutManager.VERTICAL));
-        SearchFragmentAdapter recyclerViewAdapter=new SearchFragmentAdapter(root.getContext(),arrayList);
-        recyclerViewAdapter.setSearchClickListener(new SearchFragmentAdapter.SearchItemClickListener() {
+        SearchTagsFragmentAdapter recyclerViewAdapter=new SearchTagsFragmentAdapter(root.getContext(),arrayList);
+        recyclerViewAdapter.setSearchClickListener(new SearchTagsFragmentAdapter.SearchItemClickListener() {
             @Override
             public void onItemClick(String tagName) {
                 FragmentManager fragmentManager=getParentFragmentManager();
