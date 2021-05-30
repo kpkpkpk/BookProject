@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                         String emailStr=loginF.getText().toString();
                         String passStr=passF.getText().toString();
                         if(TextUtils.isEmpty(emailStr)||TextUtils.isEmpty(passStr)){
-                            Toast.makeText(LoginActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.registration_hint), Toast.LENGTH_SHORT).show();
                         }else{
                             firebaseAuth.signInWithEmailAndPassword(emailStr,passStr).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                         finish();
                                     }else{
-                                        Toast.makeText(LoginActivity.this, "Please check ur fields", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, getResources().getString(R.string.unsuccessful_login), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
