@@ -1,4 +1,4 @@
-package com.kp.bookproject;
+package com.kp.bookproject.HelperClasses;
 
 import android.widget.LinearLayout;
 

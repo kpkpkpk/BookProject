@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.kp.bookproject.Constants.SELECTED_TAG_FRAGMENT;
+import static com.kp.bookproject.HelperClasses.Constants.SELECTED_TAG_FRAGMENT;
 
 public class SearchFragment extends Fragment {
     private View root;

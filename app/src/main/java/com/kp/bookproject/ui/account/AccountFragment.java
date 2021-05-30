@@ -23,12 +23,12 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.kp.bookproject.Callback;
+import com.kp.bookproject.HelperClasses.Callback;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.Entity.Account;
 import com.kp.bookproject.Entity.Book;
 import com.kp.bookproject.ui.FavouriteTagsActivity;
-import com.kp.bookproject.ui.LoginActivity;
+import com.kp.bookproject.ui.startpages.LoginActivity;
 import com.kp.bookproject.R;
 
 import java.io.File;
@@ -36,9 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.kp.bookproject.Constants.EDIT_PROFILE_TAG;
-import static com.kp.bookproject.Constants.REQUEST_CODE_FOR_ACCOUNT;
-import static com.kp.bookproject.Constants.SHOW_LIKED_TAG;
+import static com.kp.bookproject.HelperClasses.Constants.EDIT_PROFILE_TAG;
+import static com.kp.bookproject.HelperClasses.Constants.REQUEST_CODE_FOR_ACCOUNT;
+import static com.kp.bookproject.HelperClasses.Constants.SHOW_LIKED_TAG;
 
 public class AccountFragment extends Fragment {
 

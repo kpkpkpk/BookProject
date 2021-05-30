@@ -1,4 +1,4 @@
-package com.kp.bookproject.ui;
+package com.kp.bookproject.ui.startpages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.FavouriteTagsActivity;
 
 import java.util.HashMap;
 

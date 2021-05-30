@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kp.bookproject.Controller.DatabaseController;
 import com.kp.bookproject.R;
+import com.kp.bookproject.ui.startpages.RegistrationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
