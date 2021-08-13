@@ -12,6 +12,4 @@ import retrofit2.http.Query;
 public interface NewsApiService {
         @GET("v2/sources")
     Call<NewsApiAnswer> getNews(@Query("apiKey") String key,@Query("category") String category);
-
-
 }

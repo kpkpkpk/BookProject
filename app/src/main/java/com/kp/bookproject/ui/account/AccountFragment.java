@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -63,51 +64,43 @@ public class AccountFragment extends Fragment {
         exitButton=root.findViewById(R.id.exit_account_button);
         progressBar=root.findViewById(R.id.fragment_account_progressbar);
         changeTagsButton=root.findViewById(R.id.edit_tags_account_button);
-        changeTagsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), FavouriteTagsActivity.class));
-            }
-        });
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                if(FirebaseAuth.getInstance().getCurrentUser()==null){
-                    startActivity(new Intent(root.getContext(), LoginActivity.class));
+        changeTagsButton.setOnClickListener(v -> startActivity(new Intent(getActivity(), FavouriteTagsActivity.class)));
+        exitButton.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                startActivity(new Intent(root.getContext(), LoginActivity.class));
+                try{
                     getActivity().finish();
+                }catch (NullPointerException er){
+                    Log.d("AccountFragment",er.getMessage());
                 }
             }
         });
-        editProfileCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager=getParentFragmentManager();
-                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-                List<Fragment> existingFragments = fragmentManager.getFragments();
-                Log.d("isListExist",(existingFragments != null)+"");
-                Fragment currentShownFragment = null;
-                //проверяем, есть ли на экране отображаемые фрагменты
-                if (existingFragments != null) {
-                    for (Fragment fragment : existingFragments) {
-                        if (fragment.isVisible()) {
-                            currentShownFragment = fragment;
-                            break;
-                        }
+        editProfileCardView.setOnClickListener(v -> {
+            FragmentManager fragmentManager=getParentFragmentManager();
+            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+            List<Fragment> existingFragments = fragmentManager.getFragments();
+            Fragment currentShownFragment = null;
+            //проверяем, есть ли на экране отображаемые фрагменты
+            if (existingFragments != null) {
+                for (Fragment fragment : existingFragments) {
+                    if (fragment.isVisible()) {
+                        currentShownFragment = fragment;
+                        break;
                     }
                 }
-
-                EditProfileFragment fragment=new EditProfileFragment();
-                Bundle bundle=new Bundle();
-                bundle.putString("username",userAccount.getUsername());
-                bundle.putString("imageUrl",userAccount.getImageUrl());
-                fragment.setArguments(bundle);
-                fragment.setTargetFragment(AccountFragment.this, REQUEST_CODE_FOR_ACCOUNT);
-                fragmentTransaction.add(R.id.nav_host_fragment,fragment,EDIT_PROFILE_TAG);
-                fragmentTransaction.addToBackStack("PREVIOUS");
-                fragmentTransaction.hide(currentShownFragment);
-                fragmentTransaction.show(fragment).commit();
             }
+
+            EditProfileFragment fragment=new EditProfileFragment();
+            Bundle bundle=new Bundle();
+            bundle.putString("username",userAccount.getUsername());
+            bundle.putString("imageUrl",userAccount.getImageUrl());
+            fragment.setArguments(bundle);
+            fragment.setTargetFragment(AccountFragment.this, REQUEST_CODE_FOR_ACCOUNT);
+            fragmentTransaction.add(R.id.nav_host_fragment,fragment,EDIT_PROFILE_TAG);
+            fragmentTransaction.addToBackStack("PREVIOUS");
+            fragmentTransaction.hide(currentShownFragment);
+            fragmentTransaction.show(fragment).commit();
         });
         likedBooksButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +108,6 @@ public class AccountFragment extends Fragment {
                 FragmentManager fragmentManager=getParentFragmentManager();
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                 List<Fragment> existingFragments = fragmentManager.getFragments();
-                Log.d("isListExist",(existingFragments != null)+"");
                 Fragment currentShownFragment = null;
                 //проверяем, есть ли на экране отображаемые фрагменты
                 if (existingFragments != null) {
@@ -148,52 +140,44 @@ public class AccountFragment extends Fragment {
         greetingUserTextView.setVisibility(View.GONE);
         exitButton.setVisibility(View.GONE);
         likedBooksButton.setVisibility(View.GONE);
-        Thread thread=new Thread(new Runnable() {
+        Thread thread=new Thread(() -> getUser(new Callback() {
             @Override
-            public void run() {
-                getUser(new Callback() {
-                    @Override
-                    public void onStart() {
+            public void onStart() {
 
-                    }
-
-                    @Override
-                    public void onComplete(ArrayList<LinearLayout> linearLayouts) {
-
-                    }
-
-                    @Override
-                    public void onComplete(Book book) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        try {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void run() {
-                                Glide.with(root.getContext()).load(userAccount.getImageUrl()).into(userImage);
-                                greetingUserTextView.setText(getResources().getString(R.string.hello_account_fragment) +" "+ userAccount.getUsername());
-                                progressBar.setVisibility(View.GONE);
-                                editProfileCardView.setVisibility(View.VISIBLE);
-                                greetingUserTextView.setVisibility(View.VISIBLE);
-                                userImage.setVisibility(View.VISIBLE);
-                                exitButton.setVisibility(View.VISIBLE);
-                                changeTagsButton.setVisibility(View.VISIBLE);
-                                v1.setVisibility(View.VISIBLE);
-                                likedBooksButton.setVisibility(View.VISIBLE);
-                                v2.setVisibility(View.VISIBLE);
-                            }
-                        });
-                    }catch(NullPointerException e){
-                            Log.d("accountfragment",e.getMessage());
-                        }
-                    }
-                });
             }
-        });
+
+            @Override
+            public void onComplete(ArrayList<LinearLayout> linearLayouts) {
+
+            }
+
+            @Override
+            public void onComplete(Book book) {
+
+            }
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onComplete() {
+                try {
+                getActivity().runOnUiThread(() -> {
+                    Glide.with(root.getContext()).load(userAccount.getImageUrl()).into(userImage);
+                    greetingUserTextView.setText(getResources().getString(R.string.hello_account_fragment) +" "+ userAccount.getUsername());
+                    progressBar.setVisibility(View.GONE);
+                    editProfileCardView.setVisibility(View.VISIBLE);
+                    greetingUserTextView.setVisibility(View.VISIBLE);
+                    userImage.setVisibility(View.VISIBLE);
+                    exitButton.setVisibility(View.VISIBLE);
+                    changeTagsButton.setVisibility(View.VISIBLE);
+                    v1.setVisibility(View.VISIBLE);
+                    likedBooksButton.setVisibility(View.VISIBLE);
+                    v2.setVisibility(View.VISIBLE);
+                });
+            }catch(NullPointerException e){
+                    Log.d("AccountFragment",e.getMessage());
+                }
+            }
+        }));
         thread.start();
         
 

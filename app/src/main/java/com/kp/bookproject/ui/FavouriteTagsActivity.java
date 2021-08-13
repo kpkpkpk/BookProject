@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,8 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kp.bookproject.Controller.DatabaseController;
+import com.kp.bookproject.Entity.Book;
+import com.kp.bookproject.HelperClasses.Callback;
 import com.kp.bookproject.R;
 import com.kp.bookproject.ui.startpages.RegistrationActivity;
 
@@ -53,11 +56,31 @@ public class FavouriteTagsActivity extends AppCompatActivity {
                         selectedTags.add(chip.getText().toString());
                     }
                     //добавляем данные в БД
-                    databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags);
-                    Intent intent=new Intent(FavouriteTagsActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+                    databaseController.setFavouriteTagsIntoAccountFirebase(selectedTags, new Callback() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onComplete(ArrayList<LinearLayout> linearLayouts) {
+
+                        }
+
+                        @Override
+                        public void onComplete(Book book) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Intent intent=new Intent(FavouriteTagsActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+
                 }
             }
 

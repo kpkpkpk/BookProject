@@ -8,10 +8,6 @@ import java.sql.DriverManager;
 
 public class DatabaseConnection {
     //main information about server
-    private final String USER="postgres";
-    private final String PASSWORD="postgres";
-    private final String DB_URL="jdbc:postgresql://83.69.10.56:40023/postgres";
-    private final String JDBC_DRIVER="org.postgresql.Driver";
     private Connection connection;
     private boolean isConnected=false;
     public DatabaseConnection(){
@@ -35,10 +31,9 @@ public class DatabaseConnection {
                     //check status is true if connected
                     isConnected=true;
                     Log.d("DatabaseConnector","connect status:"+isConnected);
-
                 } catch (Exception e) {
                     isConnected=false;
-                    Log.d("ConnectP","Error, connect status:"+isConnected+"Err:"+e.getMessage());
+                    Log.d("ConnectP","Error, connect status:"+isConnected+" Err:"+e.getMessage());
                     e.printStackTrace();
                 }
             }

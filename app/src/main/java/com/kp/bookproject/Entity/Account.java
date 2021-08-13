@@ -1,5 +1,7 @@
 package com.kp.bookproject.Entity;
 
+import androidx.annotation.NonNull;
+
 public class Account {
     private String username;
     private String imageUrl;
@@ -25,6 +27,7 @@ public class Account {
         return imageUrl;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Account{" +

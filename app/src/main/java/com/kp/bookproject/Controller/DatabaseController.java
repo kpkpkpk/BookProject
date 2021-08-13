@@ -21,6 +21,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kp.bookproject.Entity.Account;
 import com.kp.bookproject.Entity.Book;
+import com.kp.bookproject.HelperClasses.Callback;
 import com.kp.bookproject.ui.recyclerViewAdapters.HorizontalBookRecyclerViewBooksAdapter;
 
 import java.io.File;
@@ -49,8 +50,6 @@ public class DatabaseController {
     public DatabaseController() {
         firebaseAuth = FirebaseAuth.getInstance();
         databaseConnection = new DatabaseConnection();
-
-
     }
 
     //если требуется работа с одной из баз
@@ -59,17 +58,15 @@ public class DatabaseController {
             firebaseAuth = FirebaseAuth.getInstance();
         } else {
             databaseConnection = new DatabaseConnection();
-
         }
     }
 
     ArrayList<Integer> tagsId;
 
-    public void setFavouriteTagsIntoAccountFirebase(ArrayList<String> selectedTags) {
+    public void setFavouriteTagsIntoAccountFirebase(ArrayList<String> selectedTags, Callback callback) {
+        callback.onStart();
         tagsId = new ArrayList<>();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+
                 try {
                     connection = databaseConnection.returnConnection();
                     statement = connection.createStatement();
@@ -90,7 +87,7 @@ public class DatabaseController {
 
                 } catch (Exception err) {
                     err.printStackTrace();
-                    Log.d("setF", err.getMessage());
+                    Log.d("setF", "ERRROROR"+err.getMessage());
                 }
 
                 //продолжаем работу с фаербейзом
@@ -99,21 +96,17 @@ public class DatabaseController {
                 if (firebaseUser != null) {
                     userId = firebaseUser.getUid();
                     databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-                    databaseReference.child("tags_id").setValue(tagsId);
+                    databaseReference.child("tags_id").setValue(tagsId).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            callback.onComplete();
+                        }
+                    });
 
                 } else {
                     Log.d("setF", "user is null");
                 }
             }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (Exception err) {
-            Log.d("DatabaseController", "getBooks" + " Error:" + err.getMessage());
-        }
-
-    }
     private ArrayList<String> tags;
 
     public ArrayList<String> getTags() {
@@ -274,9 +267,8 @@ private ArrayList<Integer> favoriteTags;
      * @return возвращаем ArrayList для
      * @see HorizontalBookRecyclerViewBooksAdapter
      * Используется для получения десяти РАНДОМНЫХ книг отсортированных по рейтингу
-     * Взаимодействовать с этим методом исключительно через отдельный поток, так как:
+     * Взаимодействовать с этим методом исключительно через отдельный поток, так как
      * виснет UI
-     * Можно воткнуть прогрессбар и т.п. вещи
      */
 
     public ArrayList<Book> getTenBooks(String tagName) {

@@ -7,9 +7,9 @@ import com.kp.bookproject.Entity.Book;
 import java.util.ArrayList;
 
 public interface Callback {
-    public void onStart();
-    public void onComplete(ArrayList<LinearLayout> linearLayouts);
-    public void onComplete(Book book);
-    public void onComplete();
+     void onStart();
+     void onComplete(ArrayList<LinearLayout> linearLayouts);
+     void onComplete(Book book);
+     void onComplete();
 
 }
