@@ -1,4 +1,4 @@
-   package com.kp.bookproject.ui.home;
+package com.kp.bookproject.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -57,7 +57,7 @@ import static com.kp.bookproject.HelperClasses.Constants.SELECTED_BOOK;
     private ProgressBar progressBar;
     private RecyclerView recyclerViewNews;
     private final String BASE_URL="https://newsapi.org/";
-    private final String API_KEY="3b2651d3eb8445068640c622f7138762";
+      private final String API_KEY="3b2651d3eb8445068640c622f7138762";
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -247,7 +247,7 @@ import static com.kp.bookproject.HelperClasses.Constants.SELECTED_BOOK;
             }
         }
     }
-    public void getNews(){
+    private void getNews(){
         Retrofit retrofit= new Retrofit.Builder()
                                     .baseUrl(BASE_URL)
                                     .addConverterFactory(GsonConverterFactory.create())

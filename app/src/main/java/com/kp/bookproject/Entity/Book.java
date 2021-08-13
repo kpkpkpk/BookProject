@@ -1,5 +1,7 @@
 package com.kp.bookproject.Entity;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 public class Book {
@@ -86,7 +88,7 @@ public class Book {
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
-
+    @NonNull
     @Override
     public String toString() {
         return "Book{" +

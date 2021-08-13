@@ -13,12 +13,9 @@ public class AccountChangesService extends JobIntentService {
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
-        Thread thread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DatabaseController databaseController=new DatabaseController(true);
-                databaseController.insertChanges(intent.getStringExtra("nickname"),intent.getStringExtra("filepath"));
-            }
+        Thread thread=new Thread(() -> {
+            DatabaseController databaseController=new DatabaseController(true);
+            databaseController.insertChanges(intent.getStringExtra("nickname"),intent.getStringExtra("filepath"));
         });
         thread.start();
         stopSelf();
