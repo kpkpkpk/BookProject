@@ -6,9 +6,7 @@ UPD2: Приложение у вас не запустится, если вы х
 #
 _**Изучаю теорию того, как выдавать рекомендации, паттерны проектирования и в целом, как я бы сказал, основной стек.**_
 #
->мне нравится добавлять новые функции и дорабатывать приложение, поэтому
-если нужна стабильная апкшка, но со старым, рабочим функционалом - обращаться на почту.
-(There may be some bugs, this is due to the fact that the application is currently being completely redesigned. If you need a stable APK- write to my email.)
+>https://drive.google.com/drive/u/0/folders/1OmDove3v6_Xd7MwXs9p3M99LK1euddpq - здесь старая, стабильная апкшка, плюс перезентация проекта.
 Email: kponomarevk@icloud.com
 #
 ____
